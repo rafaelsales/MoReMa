@@ -20,7 +20,7 @@ public class AnswerBS {
 		return answer;
 	}
 
-	public static void answerFloatNumber(int surveyId, short questioId, Float answer) {
+	public static void answerFloatNumber(Answer answer) {
 
 	}
 

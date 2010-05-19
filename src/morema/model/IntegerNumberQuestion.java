@@ -4,7 +4,7 @@ package morema.model;
 public class IntegerNumberQuestion extends Question {
 	
 	public IntegerNumberQuestion(String title, Integer lowerBound, Integer upperBound) {
-		super(title, QuestionType.IntegerNumber);
+		super(title, QUESTION_TYPE_IntegerNumber);
 	}
 
 	public Integer lowerBound;

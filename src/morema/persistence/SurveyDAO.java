@@ -1,7 +1,6 @@
 package morema.persistence;
 
 import morema.model.AbstractModel;
-import morema.model.Survey;
 
 public class SurveyDAO extends AbstractDAO {
 	
@@ -9,13 +8,11 @@ public class SurveyDAO extends AbstractDAO {
 		super("Survey");
 	}
 
-	@Override
-	protected Survey deserialize(byte[] data) {
+	protected AbstractModel deserialize(byte[] data) {
 		
 		return null;
 	}
 
-	@Override
 	protected byte[] serialize(AbstractModel model) {
 		
 		return null;

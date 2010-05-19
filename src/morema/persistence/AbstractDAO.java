@@ -1,7 +1,5 @@
 package morema.persistence;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Vector;
 
 import morema.model.AbstractModel;
@@ -23,7 +21,7 @@ public abstract class AbstractDAO  {
 	public Vector getRecords() {
 		Vector records = new Vector();
 		while (true) {
-			records.add(deserialize(null));
+			records.addElement(deserialize(null));
 			break;
 		}
 		return records;
@@ -38,7 +36,7 @@ public abstract class AbstractDAO  {
 	
 	protected abstract AbstractModel deserialize(byte[] data);
 
-	public static byte[] genericalSerialize(Object... values) {
+	public static byte[] genericalSerialize(Object[] values) {
 		StringBuffer string = new StringBuffer(); 
 		for (int i = 0; i < values.length; i++) {
 			if (values[i] == null) {
@@ -50,7 +48,7 @@ public abstract class AbstractDAO  {
 		return string.toString().getBytes();
 	}
 	
-	public static Object[] genericalDeserialize(byte[] data, Class... types) {
+	public static Object[] genericalDeserialize(byte[] data, Class[] types) {
 		String dataString = new String(data);
 		Object[] objects = new Object[types.length];
 		StringBuffer auxStringBuffer = new StringBuffer();
@@ -66,10 +64,22 @@ public abstract class AbstractDAO  {
 					}
 				} else {
 					try {
+						String stringValue = auxStringBuffer.toString();
 						if (types[currentField].equals(Character.class)) {
-							objects[currentField] = (Character) auxStringBuffer.toString().charAt(0);
+							objects[currentField] = new Character(stringValue.charAt(0));
+						} else if (types[currentField].equals(Character.class)) {
+//							objects[currentField] = types[currentField].getConstructor(String.class).newInstance(auxStringBuffer.toString());							
+							objects[currentField] = Float.valueOf(stringValue);
+						} else if (types[currentField].equals(Double.class)) {
+							objects[currentField] = Double.valueOf(stringValue);
+						} else if (types[currentField].equals(Integer.class)) {
+							objects[currentField] = Integer.valueOf(stringValue);
+						} else if (types[currentField].equals(Long.class)) {
+							objects[currentField] = new Long(Long.parseLong(stringValue));
+						} else if (types[currentField].equals(Boolean.class)) {
+							objects[currentField] = stringValue.equals("true") ? Boolean.TRUE : Boolean.FALSE;
 						} else {
-							objects[currentField] = types[currentField].getConstructor(String.class).newInstance(auxStringBuffer.toString());							
+							throw new RuntimeException("Unexpected type: " + types[currentField].getName());
 						}
 					} catch (Exception e) {
 						e.printStackTrace();
@@ -86,13 +96,13 @@ public abstract class AbstractDAO  {
 	}
 	
 	public static void main(String[] args) {
-		Float a = 3.15f;
+		Float a = new Float(3.15f);
 		String b = "Hello guys!";
-		Boolean c = false;
-		Character d = 'k';
-		Integer e = 210;
-		byte[] genericalSerialized = genericalSerialize(a, b, c, d, e);
+		Boolean c = Boolean.FALSE;
+		Character d = new Character('k');
+		Integer e = new Integer(210);
+		byte[] genericalSerialized = genericalSerialize(new Object[] {a, b, c, d, e});
 		System.out.println(new String(genericalSerialized));
-		System.out.println(new ArrayList(Arrays.asList(genericalDeserialize(genericalSerialized, Float.class, String.class, Boolean.class, Character.class, Integer.class))));
+		System.out.println(genericalDeserialize(genericalSerialized, new Class[] { Float.class, String.class, Boolean.class, Character.class, Integer.class }));
 	}
 }
