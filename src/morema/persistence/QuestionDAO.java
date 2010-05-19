@@ -1,10 +1,11 @@
 package morema.persistence;
 
+import morema.model.AbstractModel;
 import morema.model.Question;
 
 public class QuestionDAO extends AbstractDAO {
 
-	public QuestionDAO(short surveyId) {
+	public QuestionDAO(int surveyId) {
 		super("Survey" + surveyId + "Questions");
 	}
 
@@ -15,7 +16,7 @@ public class QuestionDAO extends AbstractDAO {
 	}
 
 	@Override
-	protected byte[] serialize(Object object) {
+	protected byte[] serialize(AbstractModel model) {
 		// TODO Auto-generated method stub
 		return null;
 	}

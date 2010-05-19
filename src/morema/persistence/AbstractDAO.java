@@ -4,17 +4,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Vector;
 
+import morema.model.AbstractModel;
+
 public abstract class AbstractDAO  {
-	
-	public enum Entity {
-		Survey("Survey");
-		
-		public final String RECORD_STORE_BASE_NAME;
-		
-		private Entity(String recordStoreBaseName) {
-			RECORD_STORE_BASE_NAME = recordStoreBaseName;
-		}
-	}
 	
 	public static final char FIELD_SEPARATOR = '|';
 	
@@ -24,7 +16,7 @@ public abstract class AbstractDAO  {
 		this.recordStore = recordStore;
 	}
 	
-	public Object getRecord(short id) {
+	public AbstractModel getRecord(int id) {
 		return deserialize(null);
 	}
 	
@@ -37,14 +29,14 @@ public abstract class AbstractDAO  {
 		return records;
 	}
 	
-	public short addRecord(Object object) {
-		serialize(object);
+	public int addRecord(AbstractModel model) {
+		serialize(model);
 		return 0;
 	}
 
-	protected abstract byte[] serialize(Object object);
+	protected abstract byte[] serialize(AbstractModel model);
 	
-	protected abstract Object deserialize(byte[] data);
+	protected abstract AbstractModel deserialize(byte[] data);
 
 	public static byte[] genericalSerialize(Object... values) {
 		StringBuffer string = new StringBuffer(); 
