@@ -9,7 +9,7 @@ public abstract class Question extends AbstractModel {
 		FloatNumber(4),
 		Open(4);
 		
-		public final byte QUESTION_TYPE_ID;
+		public final Byte QUESTION_TYPE_ID;
 		
 		QuestionType(int questionTypeId) {
 			QUESTION_TYPE_ID = (byte) questionTypeId;
@@ -20,6 +20,7 @@ public abstract class Question extends AbstractModel {
 		typeId = questionType.QUESTION_TYPE_ID;
 	}
 	
-	public byte typeId;
+	public Short surveyId;
+	public Byte typeId;
 	public String question;
 }

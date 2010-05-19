@@ -1,10 +1,8 @@
 package morema.persistence;
 
-import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Vector;
-
-import morema.model.AbstractModel;
 
 public abstract class AbstractDAO  {
 	
@@ -57,7 +55,6 @@ public abstract class AbstractDAO  {
 				string.append(values[i].toString() + FIELD_SEPARATOR);
 			}
 		}
-		System.out.println(string);
 		return string.toString().getBytes();
 	}
 	
@@ -78,7 +75,7 @@ public abstract class AbstractDAO  {
 				} else {
 					try {
 						if (types[currentField].equals(Character.class)) {
-							objects[currentField] = types[currentField].getConstructor(Character.class).newInstance(auxStringBuffer.toString().charAt(0));
+							objects[currentField] = (Character) auxStringBuffer.toString().charAt(0);
 						} else {
 							objects[currentField] = types[currentField].getConstructor(String.class).newInstance(auxStringBuffer.toString());							
 						}
@@ -103,7 +100,7 @@ public abstract class AbstractDAO  {
 		Character d = 'k';
 		Integer e = 210;
 		byte[] genericalSerialized = genericalSerialize(a, b, c, d, e);
-		System.out.println(Arrays.asList(genericalSerialized));
-		System.out.println(Arrays.asList(genericalDeserialize(genericalSerialized, Float.class, String.class, Boolean.class, Character.class, Integer.class)));
+		System.out.println(new String(genericalSerialized));
+		System.out.println(new ArrayList(Arrays.asList(genericalDeserialize(genericalSerialized, Float.class, String.class, Boolean.class, Character.class, Integer.class))));
 	}
 }

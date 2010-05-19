@@ -1,5 +1,7 @@
 package morema.persistence;
 
+import morema.model.Answer;
+
 public class AnswerDAO extends AbstractDAO {
 
 	public AnswerDAO(short surveyId) {
@@ -7,7 +9,7 @@ public class AnswerDAO extends AbstractDAO {
 	}
 
 	@Override
-	protected Object deserialize(byte[] data) {
+	protected Answer deserialize(byte[] data) {
 		// TODO Auto-generated method stub
 		return null;
 	}

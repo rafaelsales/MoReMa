@@ -1,6 +1,5 @@
 package morema.model;
 
-
 public class FloatNumberQuestion extends Question {
 	
 	public FloatNumberQuestion(Float lowerBound, Float upperBound) {
