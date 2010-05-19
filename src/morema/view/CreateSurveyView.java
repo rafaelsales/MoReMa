@@ -1,4 +1,4 @@
-package morema.tela;
+package morema.view;
 
 import morema.business.SurveyBS;
 import morema.model.Survey;

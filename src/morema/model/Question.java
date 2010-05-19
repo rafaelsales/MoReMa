@@ -16,11 +16,11 @@ public abstract class Question extends AbstractModel {
 		}
 	}
 	
-	public Question(QuestionType questionType) {
+	public Question(String title, QuestionType questionType) {
 		typeId = questionType.QUESTION_TYPE_ID;
 	}
 	
-	public Short surveyId;
+	public Integer surveyId;
 	public Byte typeId;
 	public String question;
 }

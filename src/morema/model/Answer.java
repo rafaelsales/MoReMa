@@ -2,8 +2,8 @@ package morema.model;
 
 public class Answer extends AbstractModel {
 	
-	public Short surveyId;
-	public Short questionId;
+	public Integer surveyId;
+	public Integer questionId;
 	public Object answer;
 
 	public Answer(Object answer) {

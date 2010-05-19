@@ -2,8 +2,8 @@ package morema.model;
 
 public class FloatNumberQuestion extends Question {
 	
-	public FloatNumberQuestion(Float lowerBound, Float upperBound) {
-		super(QuestionType.FloatNumber);
+	public FloatNumberQuestion(String title, Float lowerBound, Float upperBound) {
+		super(title, QuestionType.FloatNumber);
 	}
 
 	public Float lowerBound;

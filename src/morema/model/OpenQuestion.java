@@ -3,8 +3,8 @@ package morema.model;
 
 public class OpenQuestion extends Question {
 	
-	public OpenQuestion() {
-		super(QuestionType.Open);
+	public OpenQuestion(String title) {
+		super(title, QuestionType.Open);
 	}
 	
 }
