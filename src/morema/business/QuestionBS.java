@@ -9,6 +9,9 @@ import morema.model.TrueFalseQuestion;
 
 public class QuestionBS {
 	
+	private QuestionBS() {
+	}
+	
 	public static TrueFalseQuestion addTrueFalseQuestion(TrueFalseQuestion question) {
 		return question;
 	}

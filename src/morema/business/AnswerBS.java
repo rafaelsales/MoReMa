@@ -4,6 +4,9 @@ import morema.model.Answer;
 
 public class AnswerBS {
 
+	private AnswerBS() {
+	}
+	
 	public static Answer answerTrueFalse(Answer answer) {
 		return answer;
 	}

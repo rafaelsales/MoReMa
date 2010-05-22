@@ -2,42 +2,79 @@ package morema.persistence;
 
 import java.util.Vector;
 
-import morema.model.AbstractModel;
+import javax.microedition.rms.RecordEnumeration;
+import javax.microedition.rms.RecordStore;
+import javax.microedition.rms.RecordStoreException;
+import javax.microedition.rms.RecordStoreNotOpenException;
 
-public abstract class AbstractDAO  {
-	
+import morema.model.AbstractModel;
+import morema.util.MoremaException;
+
+public abstract class AbstractDAO {
+
 	public static final char FIELD_SEPARATOR = '|';
-	
-	protected String recordStore;
-	
-	public AbstractDAO(String recordStore) {
-		this.recordStore = recordStore;
+
+	protected String recordStoreName;
+	protected RecordStore recordStore;
+
+	public AbstractDAO(String recordStoreName) throws MoremaException {
+		this.recordStoreName = recordStoreName;
+		try {
+			try {
+				RecordStore.deleteRecordStore(recordStoreName);
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+			recordStore = RecordStore.openRecordStore(recordStoreName, true, RecordStore.AUTHMODE_ANY, true);
+		} catch (Exception e) {
+			MoremaException.throwAsMoremaException(e);
+		}
 	}
-	
-	public AbstractModel getRecord(int id) {
-		return deserialize(null);
+
+	public AbstractModel getRecordGeneric(int id) throws MoremaException {
+		try {
+			return deserialize(recordStore.getRecord(id));
+		} catch (Exception e) {
+			MoremaException.throwAsMoremaException(e);
+			return null;
+		}
 	}
-	
-	public Vector getRecords() {
-		Vector records = new Vector();
-		while (true) {
-			records.addElement(deserialize(null));
-			break;
+
+	public Vector getRecords() throws MoremaException {
+		Vector records = null;
+		try {
+			RecordEnumeration result = recordStore.enumerateRecords(null, null, false);
+			records = new Vector(result.numRecords());
+			while (result.hasNextElement()) {
+				int id = result.nextRecordId();
+				AbstractModel model = deserialize(result.nextRecord());
+				model.id = new Integer(id);
+				
+				records.addElement(model);
+			}
+		} catch (Exception e) {
+			MoremaException.throwAsMoremaException(e);
 		}
 		return records;
 	}
-	
-	public int addRecord(AbstractModel model) {
-		serialize(model);
-		return 0;
+
+	public AbstractModel addRecord(AbstractModel model) throws MoremaException {
+		byte[] data = serialize(model);
+		try {
+			model.id = new Integer(recordStore.addRecord(data, 0, data.length));
+			return model;
+		} catch (Exception e) {
+			MoremaException.throwAsMoremaException(e);
+			return null;
+		}
 	}
 
 	protected abstract byte[] serialize(AbstractModel model);
-	
+
 	protected abstract AbstractModel deserialize(byte[] data);
 
 	public static byte[] genericalSerialize(Object[] values) {
-		StringBuffer string = new StringBuffer(); 
+		StringBuffer string = new StringBuffer();
 		for (int i = 0; i < values.length; i++) {
 			if (values[i] == null) {
 				string.append(FIELD_SEPARATOR);
@@ -47,7 +84,7 @@ public abstract class AbstractDAO  {
 		}
 		return string.toString().getBytes();
 	}
-	
+
 	public static Object[] genericalDeserialize(byte[] data, Class[] types) {
 		String dataString = new String(data);
 		Object[] objects = new Object[types.length];
@@ -65,10 +102,12 @@ public abstract class AbstractDAO  {
 				} else {
 					try {
 						String stringValue = auxStringBuffer.toString();
-						if (types[currentField].equals(Character.class)) {
-							objects[currentField] = new Character(stringValue.charAt(0));
+						// objects[currentField] = types[currentField].getConstructor(String.class).newInstance(auxStringBuffer.toString());
+						if (types[currentField].equals(String.class)) {
+							objects[currentField] = stringValue;
 						} else if (types[currentField].equals(Character.class)) {
-//							objects[currentField] = types[currentField].getConstructor(String.class).newInstance(auxStringBuffer.toString());							
+							objects[currentField] = new Character(stringValue.charAt(0));
+						} else if (types[currentField].equals(Float.class)) {
 							objects[currentField] = Float.valueOf(stringValue);
 						} else if (types[currentField].equals(Double.class)) {
 							objects[currentField] = Double.valueOf(stringValue);
@@ -84,7 +123,7 @@ public abstract class AbstractDAO  {
 					} catch (Exception e) {
 						e.printStackTrace();
 						objects[currentField] = null;
-					}			
+					}
 				}
 				currentField++;
 				auxStringBuffer = new StringBuffer();
@@ -95,13 +134,21 @@ public abstract class AbstractDAO  {
 		return objects;
 	}
 	
+	public void close() {
+		try {
+			recordStore.closeRecordStore();
+		} catch (RecordStoreNotOpenException e) {
+		} catch (RecordStoreException e) {
+		}
+	}
+
 	public static void main(String[] args) {
 		Float a = new Float(3.15f);
 		String b = "Hello guys!";
 		Boolean c = Boolean.FALSE;
 		Character d = new Character('k');
 		Integer e = new Integer(210);
-		byte[] genericalSerialized = genericalSerialize(new Object[] {a, b, c, d, e});
+		byte[] genericalSerialized = genericalSerialize(new Object[] { a, b, c, d, e });
 		System.out.println(new String(genericalSerialized));
 		System.out.println(genericalDeserialize(genericalSerialized, new Class[] { Float.class, String.class, Boolean.class, Character.class, Integer.class }));
 	}

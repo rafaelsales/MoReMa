@@ -1,11 +1,12 @@
 package morema.persistence;
 
 import morema.model.AbstractModel;
+import morema.util.MoremaException;
 
 public class QuestionDAO extends AbstractDAO {
 
-	public QuestionDAO(int surveyId) {
-		super("Survey" + surveyId + "Questions");
+	public QuestionDAO(int surveyId) throws MoremaException {
+		super("Survey" + surveyId + "Question");
 	}
 
 	protected AbstractModel deserialize(byte[] data) {
