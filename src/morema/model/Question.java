@@ -1,0 +1,20 @@
+package morema.model;
+
+public abstract class Question extends AbstractModel {
+	
+	public static final Integer QUESTION_TYPE_TrueFalse = new Integer(0);
+	public static final Integer QUESTION_TYPE_MultipleChoiceOneAnswer = new Integer(1);
+	public static final Integer QUESTION_TYPE_MultipleChoiceMultipleAnswer = new Integer(2);
+	public static final Integer QUESTION_TYPE_IntegerNumber = new Integer(3);
+	public static final Integer QUESTION_TYPE_FloatNumber = new Integer(4);
+	public static final Integer QUESTION_TYPE_Open = new Integer(5);
+		
+	
+	public Question(String title, Integer questionType) {
+		typeId = questionType;
+	}
+	
+	public Integer surveyId;
+	public Integer typeId;
+	public String question;
+}
