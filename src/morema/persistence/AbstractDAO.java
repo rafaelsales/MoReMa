@@ -138,16 +138,16 @@ public abstract class AbstractDAO {
 		}
 	}
 
-//	public static void test() {
-//		Float a = new Float(3.15f);
-//		String b = "Hello guys!";
-//		Boolean c = Boolean.FALSE;
-//		Character d = new Character('k');
-//		Integer e = new Integer(210);
-//		byte[] genericalSerialized = genericalSerialize(new Object[] { a, b, c, d, e });
-//		System.out.println(new String(genericalSerialized));
-//		System.out.println(genericalDeserialize(genericalSerialized, new Class[] { Float.class, String.class, Boolean.class, Character.class, Integer.class }));
-//	}
+	public static void main(String[] args) {
+		Float a = new Float(3.15f);
+		String b = "Hello guys!";
+		Boolean c = Boolean.FALSE;
+		Character d = new Character('k');
+		Integer e = new Integer(210);
+		byte[] genericalSerialized = genericalSerialize(new Object[] { a, b, c, d, e });
+		System.out.println(new String(genericalSerialized));
+		System.out.println(genericalDeserialize(genericalSerialized, new Class[] { Float.class, String.class, Boolean.class, Character.class, Integer.class }));
+	}
 	
 	private static void openRecordStore(String recordStoreName) throws MoremaException {
 		//Caso haja outro RecordStore aberto, fecha para abrir o RecordStore solicitado:
