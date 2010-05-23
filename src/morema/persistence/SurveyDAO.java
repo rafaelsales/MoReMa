@@ -8,7 +8,7 @@ import morema.model.Survey;
 import morema.util.MoremaException;
 
 public class SurveyDAO extends AbstractDAO {
-
+	
 	public SurveyDAO() throws MoremaException {
 		super("Survey");
 	}

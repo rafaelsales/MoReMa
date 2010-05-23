@@ -15,17 +15,12 @@ public abstract class AbstractDAO {
 	public static final char FIELD_SEPARATOR = '|';
 
 	protected String recordStoreName;
-	protected RecordStore recordStore;
+	protected static RecordStore recordStore = null; //Current opened RecordStore
 
 	public AbstractDAO(String recordStoreName) throws MoremaException {
 		this.recordStoreName = recordStoreName;
 		try {
-			try {
-				RecordStore.deleteRecordStore(recordStoreName);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-			recordStore = RecordStore.openRecordStore(recordStoreName, true, RecordStore.AUTHMODE_ANY, true);
+			openRecordStore(recordStoreName);
 		} catch (Exception e) {
 			MoremaException.throwAsMoremaException(e);
 		}
@@ -47,8 +42,9 @@ public abstract class AbstractDAO {
 			records = new Vector(result.numRecords());
 			while (result.hasNextElement()) {
 				int id = result.nextRecordId();
-				AbstractModel model = deserialize(result.nextRecord());
+				AbstractModel model = deserialize(recordStore.getRecord(id));
 				model.id = new Integer(id);
+//				model.id = new Integer(result.previousRecordId());
 				
 				records.addElement(model);
 			}
@@ -142,7 +138,7 @@ public abstract class AbstractDAO {
 		}
 	}
 
-	public static void main(String[] args) {
+	public static void maina(String[] args) {
 		Float a = new Float(3.15f);
 		String b = "Hello guys!";
 		Boolean c = Boolean.FALSE;
@@ -151,5 +147,28 @@ public abstract class AbstractDAO {
 		byte[] genericalSerialized = genericalSerialize(new Object[] { a, b, c, d, e });
 		System.out.println(new String(genericalSerialized));
 		System.out.println(genericalDeserialize(genericalSerialized, new Class[] { Float.class, String.class, Boolean.class, Character.class, Integer.class }));
+	}
+	
+	private static void openRecordStore(String recordStoreName) throws MoremaException {
+		//Caso haja outro RecordStore aberto, fecha para abrir o RecordStore solicitado:
+		boolean recordStoreOpened = false;
+		if (recordStore != null) {
+			try {
+				if (recordStore.getName().equals(recordStoreName)) {
+					recordStoreOpened = true;
+				} else {
+					recordStore.closeRecordStore();					
+				}
+			} catch (RecordStoreException e) {
+			}
+		}
+		
+		if (!recordStoreOpened) {
+			try {
+				recordStore = RecordStore.openRecordStore(recordStoreName, true, RecordStore.AUTHMODE_ANY, true);		
+			} catch (Exception e) {
+				MoremaException.throwAsMoremaException(e);
+			}
+		}
 	}
 }
