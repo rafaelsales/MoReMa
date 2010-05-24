@@ -1,6 +1,5 @@
 package morema.view;
 
-import javax.microedition.lcdui.Alert;
 import javax.microedition.lcdui.Command;
 import javax.microedition.lcdui.CommandListener;
 import javax.microedition.lcdui.Displayable;
@@ -14,11 +13,12 @@ import morema.util.MoremaException;
 
 public class CreateSurveyView extends Form implements CommandListener {
 
-	private Displayable parentForm;
-	private TextField tfTitle;
-	private Survey survey;
-	private Command cmdCreate = new Command("Criar", Command.ITEM, 0);
-	private Command cmdCancel = new Command("Cancelar", Command.CANCEL, 1);
+	private final Displayable parentForm;
+	private final TextField tfTitle;
+	private final Survey survey;
+	private final Command cmdSave = new Command("Salvar", Command.ITEM, 0);
+	private final Command cmdAddQuestion = new Command("Adicionar pergunta", Command.ITEM, 1);
+	private final Command cmdBack = new Command("Voltar", Command.CANCEL, 2);
 	
 	public CreateSurveyView(Displayable parentForm) {
 		super("Criar pesquisa");
@@ -27,32 +27,33 @@ public class CreateSurveyView extends Form implements CommandListener {
 		
 		tfTitle = new TextField("Titulo", null, getWidth(), TextField.ANY);
 		append(tfTitle);
-		addCommand(cmdCreate);
-		addCommand(cmdCancel);
+		addCommand(cmdSave);
+		addCommand(cmdAddQuestion);
+		addCommand(cmdBack);
 		setCommandListener(this);
 	}
-
 
 	private void createSurvey() {
 		try {
 			survey.title = tfTitle.getString();
 			SurveyBS.createSurvey(survey);
-			MainView.getDisplay().setCurrent(new Alert(Constantes.MSG_DADOS_CADASTRADOS_SUCESSO), this);
+			MainView.showAlert(Constantes.MSG_DADOS_CADASTRADOS_SUCESSO, this);
 		} catch (MoremaException e) {
-			MainView.getDisplay().setCurrent(new Alert(e.getMessage()));
+			MainView.showAlert(e.getMessage(), null);
 		}
 	}
 
-	public void prepareAddQuestion() {
-		
-	}
-
-
 	public void commandAction(Command c, Displayable d) {
-		if (c.getLabel().equals(cmdCreate.getLabel())) {
+		if (c.getLabel().equals(cmdSave.getLabel())) {
 			createSurvey();
-		} else if (c.getLabel().equals(cmdCancel.getLabel())) {
+		} else if (c.getLabel().equals(cmdBack.getLabel())) {
 			MainView.getDisplay().setCurrent(parentForm);
+		} else if (c.getLabel().equals(cmdAddQuestion.getLabel())) {
+			if (survey.id == null) {
+				MainView.showAlert(Constantes.MSG_ERRO_NECESSARIO_SALVAR, null);
+			} else {
+				
+			}
 		}
 	}
 }

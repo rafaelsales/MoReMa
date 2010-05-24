@@ -2,7 +2,6 @@ package morema.view;
 
 import java.util.Vector;
 
-import javax.microedition.lcdui.Alert;
 import javax.microedition.lcdui.Choice;
 import javax.microedition.lcdui.Command;
 import javax.microedition.lcdui.CommandListener;
@@ -16,10 +15,10 @@ import morema.util.MoremaException;
 public class ListSurveyView extends List implements CommandListener {
 
 	private Vector listSurvey;
-	private Displayable parentForm;
-	private Command cmdSelect = new Command("Selecionar", Command.ITEM, 0);
-	private Command cmdRemove = new Command("Remover", Command.ITEM, 1);
-	private Command cmdBack = new Command("Voltar", Command.CANCEL, 2);
+	private final Displayable parentForm;
+	private final Command cmdSelect = new Command("Selecionar", Command.ITEM, 0);
+	private final Command cmdRemove = new Command("Remover", Command.ITEM, 1);
+	private final Command cmdBack = new Command("Voltar", Command.CANCEL, 2);
 	
 	public ListSurveyView(Displayable parentForm) throws MoremaException {
 		super("Pesquisas", Choice.IMPLICIT);
@@ -44,7 +43,7 @@ public class ListSurveyView extends List implements CommandListener {
 		try {
 			SurveyBS.removeSurvey((Survey) listSurvey.elementAt(getSelectedIndex()));
 		} catch (MoremaException e) {
-			MainView.getDisplay().setCurrent(new Alert(e.getMessage()));
+			MainView.showAlert(e.getMessage(), null);
 		}
 	}
 

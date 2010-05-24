@@ -1,6 +1,5 @@
 package morema.view;
 
-import javax.microedition.lcdui.Alert;
 import javax.microedition.lcdui.Choice;
 import javax.microedition.lcdui.Command;
 import javax.microedition.lcdui.CommandListener;
@@ -34,10 +33,18 @@ public class MainView extends MIDlet {
 	public static Display getDisplay() {
 		return Display.getDisplay(midlet);
 	}
+	
+	public static void showAlert(String msg, Displayable nextForm) {
+		if (nextForm == null) {
+			MainView.showAlert(msg, null);
+		} else {
+			MainView.showAlert(msg, nextForm);
+		}
+	}
 
 	private class MainViewForm extends List implements CommandListener {
 
-		private Command cmdSair = new Command("Sair", Command.EXIT, 0);
+		private final Command cmdSair = new Command("Sair", Command.EXIT, 0);
 		
 		public MainViewForm() {
 			super("MoReMa", Choice.IMPLICIT);
@@ -55,10 +62,8 @@ public class MainView extends MIDlet {
 				} catch (MIDletStateChangeException e) {
 				}
 			} else {
-				List down = (List) getDisplay().getCurrent();
-				
 				try {
-					switch (down.getSelectedIndex()) {
+					switch (this.getSelectedIndex()) {
 					case 0:
 						getDisplay().setCurrent(new CreateSurveyView(this));
 						break;
@@ -67,7 +72,7 @@ public class MainView extends MIDlet {
 						break;
 					}
 				} catch (MoremaException e) {
-					getDisplay().setCurrent(new Alert(e.getMessage()));
+					MainView.showAlert(e.getMessage(), null);
 				}
 			}
 		}
