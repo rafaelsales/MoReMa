@@ -12,7 +12,7 @@ public class PrepareCreateQuestionView extends List implements CommandListener {
 	
 	private final Displayable parentForm;
 	private final Survey survey;
-	private final Command cmdChoose = new Command("Escolher", Command.ITEM, 0);
+	private final Command cmdChoose = new Command("Escolher", Command.OK, 0);
 	private final Command cmdBack = new Command("Voltar", Command.CANCEL, 1);
 	
 	public PrepareCreateQuestionView(Survey survey, Displayable parentForm) {

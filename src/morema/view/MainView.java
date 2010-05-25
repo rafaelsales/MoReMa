@@ -25,6 +25,7 @@ public class MainView extends MIDlet {
 	}
 
 	protected void pauseApp() {
+		notifyPaused();
 	}
 
 	protected void startApp() throws MIDletStateChangeException {
@@ -45,19 +46,19 @@ public class MainView extends MIDlet {
 
 	private class MainViewForm extends List implements CommandListener {
 
-		private final Command cmdSair = new Command("Sair", Command.EXIT, 0);
+		private final Command cmdExit = new Command("Sair", Command.EXIT, 0);
 		
 		public MainViewForm() {
 			super("MoReMa", Choice.IMPLICIT);
 
 			append("Criar pesquisa", null);
 			append("Listar pesquisas", null);
-			addCommand(cmdSair);
+			addCommand(cmdExit);
 			setCommandListener(this);
 		}
 
 		public void commandAction(Command c, Displayable d) {
-			if (c.getLabel().equals(cmdSair.getLabel())) {
+			if (c.getLabel().equals(cmdExit.getLabel())) {
 				try {
 					destroyApp(true);
 				} catch (MIDletStateChangeException e) {

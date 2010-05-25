@@ -16,8 +16,8 @@ public class ListSurveyView extends List implements CommandListener {
 
 	private Vector listSurvey;
 	private final Displayable parentForm;
-	private final Command cmdAnswer = new Command("Responder", Command.ITEM, 0);
-	private final Command cmdSelect = new Command("Selecionar", Command.ITEM, 1);
+	private final Command cmdAnswer = new Command("Responder", Command.OK, 0);
+	private final Command cmdUpdate = new Command("Alterar", Command.ITEM, 1);
 	private final Command cmdRemove = new Command("Remover", Command.ITEM, 2);
 	private final Command cmdBack = new Command("Voltar", Command.CANCEL, 3);
 	
@@ -28,7 +28,7 @@ public class ListSurveyView extends List implements CommandListener {
 		list();
 		
 		addCommand(cmdAnswer);
-		addCommand(cmdSelect);
+		addCommand(cmdUpdate);
 		addCommand(cmdRemove);
 		addCommand(cmdBack);
 		setCommandListener(this);
@@ -74,7 +74,7 @@ public class ListSurveyView extends List implements CommandListener {
 		}
 		if (c.getLabel().equals(cmdAnswer.getLabel())) {
 			answer(survey);
-		} else if (c.getLabel().equals(cmdSelect.getLabel())) {
+		} else if (c.getLabel().equals(cmdUpdate.getLabel())) {
 			select(survey);
 		} else if (c.getLabel().equals(cmdRemove.getLabel())) {
 			remove(survey);
