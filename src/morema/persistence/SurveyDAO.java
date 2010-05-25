@@ -27,7 +27,10 @@ public class SurveyDAO extends AbstractDAO {
 		try {
 			RecordEnumeration result = recordStore.enumerateRecords(titleFilter, null, false);
 			if (result.hasNextElement()) {
-				return (Survey) deserialize(result.nextRecord());
+				int id = result.nextRecordId();
+				AbstractModel model = deserialize(recordStore.getRecord(id));
+				model.id = new Integer(id);
+				return (Survey) model;
 			}
 		} catch (Exception e) {
 			MoremaException.throwAsMoremaException(e);

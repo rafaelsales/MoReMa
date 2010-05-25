@@ -1,7 +1,5 @@
 package morema.view;
 
-import java.util.Vector;
-
 import javax.microedition.lcdui.Choice;
 import javax.microedition.lcdui.Command;
 import javax.microedition.lcdui.CommandListener;
@@ -14,7 +12,7 @@ import morema.util.MoremaException;
 
 public class ListSurveyView extends List implements CommandListener {
 
-	private Vector listSurvey;
+	private Object[] listSurvey;
 	private final Displayable parentForm;
 	private final Command cmdAnswer = new Command("Responder", Command.OK, 0);
 	private final Command cmdUpdate = new Command("Alterar", Command.ITEM, 1);
@@ -36,8 +34,8 @@ public class ListSurveyView extends List implements CommandListener {
 
 	public void list() throws MoremaException {
 		listSurvey = SurveyBS.list();
-		for (int i = 0; i < listSurvey.size(); i++) {
-			append(((Survey) listSurvey.elementAt(i)).title, null);
+		for (int i = 0; i < listSurvey.length; i++) {
+			append(((Survey) listSurvey[i]).title, null);
 		}
 	}
 
@@ -70,7 +68,7 @@ public class ListSurveyView extends List implements CommandListener {
 	public void commandAction(Command c, Displayable d) {
 		Survey survey = null;
 		if (this.getSelectedIndex() != -1) {
-			survey = (Survey) listSurvey.elementAt(this.getSelectedIndex());
+			survey = (Survey) listSurvey[this.getSelectedIndex()];
 		}
 		if (c.getLabel().equals(cmdAnswer.getLabel())) {
 			answer(survey);
@@ -80,6 +78,8 @@ public class ListSurveyView extends List implements CommandListener {
 			remove(survey);
 		} else if (c.getLabel().equals(cmdBack.getLabel())) {
 			MainView.getDisplay().setCurrent(parentForm);
+		} else {
+			answer(survey);
 		}
 	}
 }

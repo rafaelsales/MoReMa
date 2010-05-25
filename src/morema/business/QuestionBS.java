@@ -1,7 +1,5 @@
 package morema.business;
 
-import java.util.Vector;
-
 import morema.model.FloatNumberQuestion;
 import morema.model.IntegerNumberQuestion;
 import morema.model.MultipleChoiceMultipleAnswerQuestion;
@@ -45,7 +43,7 @@ public class QuestionBS {
 	public static void removeQuestion(Question question) throws MoremaException {
 	}
 	
-	public static Vector getQuestions(Survey survey) throws MoremaException {
+	public static Object[] getQuestions(Survey survey) throws MoremaException {
 		QuestionDAO questionDAO = new QuestionDAO(survey.id);
 		return questionDAO.getRecords();
 	}

@@ -8,6 +8,7 @@ import javax.microedition.rms.RecordStoreException;
 
 import morema.model.AbstractModel;
 import morema.util.MoremaException;
+import morema.util.Util;
 
 public abstract class AbstractDAO {
 
@@ -34,7 +35,7 @@ public abstract class AbstractDAO {
 		}
 	}
 
-	public Vector getRecords() throws MoremaException {
+	public Object[] getRecords() throws MoremaException {
 		Vector records = null;
 		try {
 			RecordEnumeration result = recordStore.enumerateRecords(null, null, false);
@@ -48,7 +49,7 @@ public abstract class AbstractDAO {
 		} catch (Exception e) {
 			MoremaException.throwAsMoremaException(e);
 		}
-		return records;
+		return Util.vectorToArray(records, true);
 	}
 
 	public AbstractModel saveRecord(AbstractModel model) throws MoremaException {
@@ -59,6 +60,7 @@ public abstract class AbstractDAO {
 			} else {
 				recordStore.setRecord(model.id.intValue(), data, 0, data.length);
 			}
+			System.out.println("Persist " + model.getClass().getName() + ": " + new String(data));
 			return model;
 		} catch (Exception e) {
 			MoremaException.throwAsMoremaException(e);
@@ -99,9 +101,14 @@ public abstract class AbstractDAO {
 				} else {
 					try {
 						String stringValue = auxStringBuffer.toString();
-						// objects[currentField] = types[currentField].getConstructor(String.class).newInstance(auxStringBuffer.toString());
 						if (types[currentField].equals(String.class)) {
 							objects[currentField] = stringValue;
+						} else if (types[currentField].equals(Boolean.class)) {
+							if (stringValue.equals("true")) {
+								objects[currentField] = Boolean.TRUE;
+							} else {
+								objects[currentField] = Boolean.FALSE;	
+							}
 						} else if (types[currentField].equals(Character.class)) {
 							objects[currentField] = new Character(stringValue.charAt(0));
 						} else if (types[currentField].equals(Float.class)) {

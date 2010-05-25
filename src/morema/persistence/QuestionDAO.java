@@ -25,21 +25,21 @@ public class QuestionDAO extends AbstractDAO {
 
 	protected AbstractModel deserialize(byte[] data) {
 		Object[] fields = genericalDeserialize(data, new Class[] { Integer.class });
-		Integer questionId = ((Integer)fields[0]);
-		if (questionId.equals(Question.QUESTION_TYPE_TrueFalse)) {
+		Integer questionTypeId = ((Integer)fields[0]);
+		if (questionTypeId.equals(Question.QUESTION_TYPE_TrueFalse)) {
 			fields = genericalDeserialize(data, new Class[] { Integer.class, String.class });
 			TrueFalseQuestion question = new TrueFalseQuestion((String) fields[1]);
 			question.surveyId = surveyId;
 			return question;
-		} else if (questionId.equals(Question.QUESTION_TYPE_MultipleChoiceMultipleAnswer)) {
+		} else if (questionTypeId.equals(Question.QUESTION_TYPE_MultipleChoiceMultipleAnswer)) {
 			
-		} else if (questionId.equals(Question.QUESTION_TYPE_MultipleChoiceOneAnswer)) {
+		} else if (questionTypeId.equals(Question.QUESTION_TYPE_MultipleChoiceOneAnswer)) {
 			
-		} else if (questionId.equals(Question.QUESTION_TYPE_IntegerNumber)) {
+		} else if (questionTypeId.equals(Question.QUESTION_TYPE_IntegerNumber)) {
 			
-		} else if (questionId.equals(Question.QUESTION_TYPE_FloatNumber)) {
+		} else if (questionTypeId.equals(Question.QUESTION_TYPE_FloatNumber)) {
 			
-		} else if (questionId.equals(Question.QUESTION_TYPE_Open)) {
+		} else if (questionTypeId.equals(Question.QUESTION_TYPE_Open)) {
 			
 		}
 		return null;

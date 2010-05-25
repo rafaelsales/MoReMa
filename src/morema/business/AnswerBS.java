@@ -1,6 +1,8 @@
 package morema.business;
 
 import morema.model.Answer;
+import morema.persistence.AnswerDAO;
+import morema.util.MoremaException;
 
 public class AnswerBS {
 
@@ -29,5 +31,9 @@ public class AnswerBS {
 
 	public static void answerOpen(Answer answer) {
 
+	}
+
+	public static void answer(Answer answer) throws MoremaException {
+		new AnswerDAO(answer.surveyId).saveRecord(answer);
 	}
 }
