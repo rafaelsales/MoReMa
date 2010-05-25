@@ -37,7 +37,7 @@ public class PrepareCreateQuestionView extends List implements CommandListener {
 		if (c.getLabel().equals(cmdChoose.getLabel())) {
 			switch (this.getSelectedIndex()) {
 			case 0:
-				MainView.getDisplay().setCurrent(new CreateTrueFalseQuestionView(survey, Question.QUESTION_TYPE_TrueFalse, this));
+				MainView.getDisplay().setCurrent(new CreateTrueFalseQuestionView(survey, this));
 				break;
 			case 1:
 				break;

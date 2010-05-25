@@ -44,8 +44,6 @@ public abstract class AbstractDAO {
 				int id = result.nextRecordId();
 				AbstractModel model = deserialize(recordStore.getRecord(id));
 				model.id = new Integer(id);
-//				model.id = new Integer(result.previousRecordId());
-				
 				records.addElement(model);
 			}
 		} catch (Exception e) {
@@ -86,7 +84,7 @@ public abstract class AbstractDAO {
 		Object[] objects = new Object[types.length];
 		StringBuffer auxStringBuffer = new StringBuffer();
 		int currentField = 0;
-		for (int i = 0; i < data.length; i++) {
+		for (int i = 0; (i < data.length) && (currentField < types.length); i++) {
 			char charI = dataString.charAt(i);
 			if (charI == FIELD_SEPARATOR) {
 				if (auxStringBuffer.length() == 0) {
@@ -130,14 +128,6 @@ public abstract class AbstractDAO {
 		return objects;
 	}
 	
-	public void close() {
-		try {
-			recordStore.closeRecordStore();
-		} catch (RecordStoreNotOpenException e) {
-		} catch (RecordStoreException e) {
-		}
-	}
-
 	public static void main(String[] args) {
 		Float a = new Float(3.15f);
 		String b = "Hello guys!";

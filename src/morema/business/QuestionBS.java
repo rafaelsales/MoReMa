@@ -1,10 +1,13 @@
 package morema.business;
 
+import java.util.Vector;
+
 import morema.model.FloatNumberQuestion;
 import morema.model.IntegerNumberQuestion;
 import morema.model.MultipleChoiceMultipleAnswerQuestion;
 import morema.model.OpenQuestion;
 import morema.model.Question;
+import morema.model.Survey;
 import morema.model.TrueFalseQuestion;
 import morema.persistence.QuestionDAO;
 import morema.util.Constantes;
@@ -42,6 +45,11 @@ public class QuestionBS {
 	public static void removeQuestion(Question question) throws MoremaException {
 	}
 	
+	public static Vector getQuestions(Survey survey) throws MoremaException {
+		QuestionDAO questionDAO = new QuestionDAO(survey.id);
+		return questionDAO.getRecords();
+	}
+	
 	private static void addQuestion(Question question) throws MoremaException {
 		if (Util.isEmpty(question.question) || question.typeId == null) {
 			throw new MoremaException(Constantes.MSG_ERRO_DADOS_INVALIDOS);
@@ -49,4 +57,5 @@ public class QuestionBS {
 		QuestionDAO dao = new QuestionDAO(question.surveyId);
 		dao.addRecord(question);
 	}
+	
 }

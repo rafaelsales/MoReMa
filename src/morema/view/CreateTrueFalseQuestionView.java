@@ -14,16 +14,14 @@ import morema.util.MoremaException;
 public class CreateTrueFalseQuestionView extends Form implements CommandListener {
 	
 	private final Survey survey;
-	private final Integer questionTypeId;
 	private final Displayable parentForm;
 	private final TextField tfTitle;
 	private final Command cmdSave = new Command("Salvar", Command.ITEM, 0);
 	private final Command cmdBack = new Command("Voltar", Command.CANCEL, 1);
 	
-	public CreateTrueFalseQuestionView(Survey survey, Integer questionTypeId, Displayable parentForm) {
+	public CreateTrueFalseQuestionView(Survey survey, Displayable parentForm) {
 		super("Adicionar pergunta");
 		this.survey = survey;
-		this.questionTypeId = questionTypeId;
 		this.parentForm = parentForm;
 		
 		tfTitle = new TextField("Título", null, getWidth(), TextField.ANY);
@@ -35,6 +33,7 @@ public class CreateTrueFalseQuestionView extends Form implements CommandListener
 	
 	private void addQuestion() {
 		TrueFalseQuestion question = new TrueFalseQuestion(tfTitle.getString());
+		question.surveyId = survey.id;
 		try {
 			QuestionBS.addTrueFalseQuestion(question);
 		} catch (MoremaException e) {
