@@ -9,6 +9,7 @@ import javax.microedition.lcdui.TextField;
 import morema.business.QuestionBS;
 import morema.model.Survey;
 import morema.model.TrueFalseQuestion;
+import morema.util.Constantes;
 import morema.util.MoremaException;
 
 public class CreateTrueFalseQuestionView extends Form implements CommandListener {
@@ -24,7 +25,7 @@ public class CreateTrueFalseQuestionView extends Form implements CommandListener
 		this.survey = survey;
 		this.parentForm = parentForm;
 		
-		tfTitle = new TextField("Título", null, getWidth(), TextField.ANY);
+		tfTitle = new TextField("Texto da pergunta", null, getWidth(), TextField.ANY);
 		append(tfTitle);
 		addCommand(cmdBack);
 		addCommand(cmdSave);
@@ -36,6 +37,7 @@ public class CreateTrueFalseQuestionView extends Form implements CommandListener
 		question.surveyId = survey.id;
 		try {
 			QuestionBS.addTrueFalseQuestion(question);
+			MainView.showAlert(Constantes.MSG_DADOS_CADASTRADOS_SUCESSO, parentForm);
 		} catch (MoremaException e) {
 			MainView.showAlert(e.getMessage(), null);
 		}

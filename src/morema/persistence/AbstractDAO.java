@@ -5,7 +5,6 @@ import java.util.Vector;
 import javax.microedition.rms.RecordEnumeration;
 import javax.microedition.rms.RecordStore;
 import javax.microedition.rms.RecordStoreException;
-import javax.microedition.rms.RecordStoreNotOpenException;
 
 import morema.model.AbstractModel;
 import morema.util.MoremaException;
@@ -52,10 +51,14 @@ public abstract class AbstractDAO {
 		return records;
 	}
 
-	public AbstractModel addRecord(AbstractModel model) throws MoremaException {
+	public AbstractModel saveRecord(AbstractModel model) throws MoremaException {
 		byte[] data = serialize(model);
 		try {
-			model.id = new Integer(recordStore.addRecord(data, 0, data.length));
+			if (model.id == null) {
+				model.id = new Integer(recordStore.addRecord(data, 0, data.length));
+			} else {
+				recordStore.setRecord(model.id.intValue(), data, 0, data.length);
+			}
 			return model;
 		} catch (Exception e) {
 			MoremaException.throwAsMoremaException(e);

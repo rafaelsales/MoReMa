@@ -12,5 +12,5 @@ public interface Constantes {
 	String MSG_ERRO_NECESSARIO_SALVAR = "Salve antes de prosseguir";
 	String MSG_ERRO_SURVEY_TITULO_EXISTENTE = "Já existe uma pesquisa com este nome.";
 	
-	String MSG_DADOS_CADASTRADOS_SUCESSO = "Pesquisa cadastrada com sucesso";
+	String MSG_DADOS_CADASTRADOS_SUCESSO = "Dados salvos com sucesso";
 }

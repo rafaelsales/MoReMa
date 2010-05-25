@@ -1,5 +1,6 @@
 package morema.view;
 
+import javax.microedition.lcdui.Alert;
 import javax.microedition.lcdui.Choice;
 import javax.microedition.lcdui.Command;
 import javax.microedition.lcdui.CommandListener;
@@ -36,9 +37,9 @@ public class MainView extends MIDlet {
 	
 	public static void showAlert(String msg, Displayable nextForm) {
 		if (nextForm == null) {
-			MainView.showAlert(msg, null);
+			getDisplay().setCurrent(new Alert(msg));
 		} else {
-			MainView.showAlert(msg, nextForm);
+			getDisplay().setCurrent(new Alert(msg), nextForm);
 		}
 	}
 

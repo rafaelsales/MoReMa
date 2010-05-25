@@ -6,7 +6,6 @@ import javax.microedition.lcdui.CommandListener;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.List;
 
-import morema.model.Question;
 import morema.model.Survey;
 
 public class PrepareCreateQuestionView extends List implements CommandListener {
@@ -37,7 +36,7 @@ public class PrepareCreateQuestionView extends List implements CommandListener {
 		if (c.getLabel().equals(cmdChoose.getLabel())) {
 			switch (this.getSelectedIndex()) {
 			case 0:
-				MainView.getDisplay().setCurrent(new CreateTrueFalseQuestionView(survey, this));
+				MainView.getDisplay().setCurrent(new CreateTrueFalseQuestionView(survey, parentForm));
 				break;
 			case 1:
 				break;

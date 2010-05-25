@@ -18,10 +18,13 @@ public class SurveyBS {
 		SurveyDAO dao = new SurveyDAO();
 		if (Util.isEmpty(survey.title)) {
 			throw new MoremaException(Constantes.MSG_ERRO_DADOS_INVALIDOS);
-		} else if (dao.getByName(survey.title) != null) {
-			throw new MoremaException(Constantes.MSG_ERRO_SURVEY_TITULO_EXISTENTE);
+		} else {
+			Survey existentSurvey = dao.getByName(survey.title);
+			if (existentSurvey != null && !survey.id.equals(existentSurvey.id)) {
+				throw new MoremaException(Constantes.MSG_ERRO_SURVEY_TITULO_EXISTENTE);
+			}
 		}
-		dao.addRecord(survey);
+		dao.saveRecord(survey);
 	}
 
 	public static void removeSurvey(Survey survey) throws MoremaException {

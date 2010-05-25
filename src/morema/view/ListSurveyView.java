@@ -16,9 +16,10 @@ public class ListSurveyView extends List implements CommandListener {
 
 	private Vector listSurvey;
 	private final Displayable parentForm;
-	private final Command cmdSelect = new Command("Selecionar", Command.ITEM, 0);
-	private final Command cmdRemove = new Command("Remover", Command.ITEM, 1);
-	private final Command cmdBack = new Command("Voltar", Command.CANCEL, 2);
+	private final Command cmdAnswer = new Command("Responder", Command.ITEM, 0);
+	private final Command cmdSelect = new Command("Selecionar", Command.ITEM, 1);
+	private final Command cmdRemove = new Command("Remover", Command.ITEM, 2);
+	private final Command cmdBack = new Command("Voltar", Command.CANCEL, 3);
 	
 	public ListSurveyView(Displayable parentForm) throws MoremaException {
 		super("Pesquisas", Choice.IMPLICIT);
@@ -26,6 +27,7 @@ public class ListSurveyView extends List implements CommandListener {
 		
 		list();
 		
+		addCommand(cmdAnswer);
 		addCommand(cmdSelect);
 		addCommand(cmdRemove);
 		addCommand(cmdBack);
@@ -39,23 +41,43 @@ public class ListSurveyView extends List implements CommandListener {
 		}
 	}
 
-	public void remove() {
-		try {
-			SurveyBS.removeSurvey((Survey) listSurvey.elementAt(getSelectedIndex()));
-		} catch (MoremaException e) {
-			MainView.showAlert(e.getMessage(), null);
+	public void remove(Survey survey) {
+		if (survey != null) {
+			try {
+				SurveyBS.removeSurvey(survey);
+			} catch (MoremaException e) {
+				MainView.showAlert(e.getMessage(), null);
+			}
 		}
 	}
 
-	public void select() {
-
+	public void select(Survey survey) {
+		if (survey != null) {
+			MainView.getDisplay().setCurrent(new CreateSurveyView(survey, this));
+		}
+	}
+	
+	public void answer(Survey survey) {
+		if (survey != null) {
+			try {
+				MainView.getDisplay().setCurrent(new AnswerSurveyView(survey, this));
+			} catch (MoremaException e) {
+				MainView.showAlert(e.getMessage(), null);
+			}
+		}
 	}
 	
 	public void commandAction(Command c, Displayable d) {
-		if (c.getLabel().equals(cmdSelect.getLabel())) {
-			select();
+		Survey survey = null;
+		if (this.getSelectedIndex() != -1) {
+			survey = (Survey) listSurvey.elementAt(this.getSelectedIndex());
+		}
+		if (c.getLabel().equals(cmdAnswer.getLabel())) {
+			answer(survey);
+		} else if (c.getLabel().equals(cmdSelect.getLabel())) {
+			select(survey);
 		} else if (c.getLabel().equals(cmdRemove.getLabel())) {
-			remove();
+			remove(survey);
 		} else if (c.getLabel().equals(cmdBack.getLabel())) {
 			MainView.getDisplay().setCurrent(parentForm);
 		}

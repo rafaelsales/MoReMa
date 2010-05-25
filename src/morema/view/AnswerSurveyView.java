@@ -2,17 +2,15 @@ package morema.view;
 
 import java.util.Vector;
 
+import javax.microedition.lcdui.ChoiceGroup;
 import javax.microedition.lcdui.Command;
 import javax.microedition.lcdui.CommandListener;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Form;
-import javax.microedition.lcdui.StringItem;
-import javax.microedition.lcdui.TextField;
 
 import morema.business.QuestionBS;
 import morema.model.Question;
 import morema.model.Survey;
-import morema.model.TrueFalseQuestion;
 import morema.util.MoremaException;
 
 public class AnswerSurveyView extends Form implements CommandListener {
@@ -31,10 +29,11 @@ public class AnswerSurveyView extends Form implements CommandListener {
 		questions = QuestionBS.getQuestions(survey);
 		for (int i = 0; i < questions.size(); i++) {
 			Question genericQuestion = (Question) questions.elementAt(i);
-			StringItem title = new StringItem(genericQuestion.question, null);
-			append(title);
 			if (genericQuestion.typeId.equals(Question.QUESTION_TYPE_TrueFalse)) {
-				TrueFalseQuestion question = (TrueFalseQuestion) genericQuestion;
+				ChoiceGroup choiceGroup = new ChoiceGroup(genericQuestion.question, ChoiceGroup.EXCLUSIVE);
+				choiceGroup.append("Sim", null);
+				choiceGroup.append("Não", null);
+				append(choiceGroup);
 			} else if (genericQuestion.typeId.equals(Question.QUESTION_TYPE_MultipleChoiceMultipleAnswer)) {
 				
 			} else if (genericQuestion.typeId.equals(Question.QUESTION_TYPE_MultipleChoiceOneAnswer)) {
@@ -62,7 +61,8 @@ public class AnswerSurveyView extends Form implements CommandListener {
 	}
 
 	public void commandAction(Command c, Displayable d) {
-		// TODO Auto-generated method stub
-		
+		if (c.getLabel().equals(cmdBack.getLabel())) {
+			MainView.getDisplay().setCurrent(parentForm);
+		}
 	}
 }

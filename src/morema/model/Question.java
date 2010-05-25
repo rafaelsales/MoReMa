@@ -10,8 +10,9 @@ public abstract class Question extends AbstractModel {
 	public static final Integer QUESTION_TYPE_Open = new Integer(5);
 		
 	
-	public Question(String title, Integer questionType) {
-		typeId = questionType;
+	public Question(String question, Integer questionTypeId) {
+		this.question = question;
+		this.typeId = questionTypeId;
 	}
 	
 	public Integer surveyId;

@@ -21,11 +21,15 @@ public class CreateSurveyView extends Form implements CommandListener {
 	private final Command cmdBack = new Command("Voltar", Command.CANCEL, 2);
 	
 	public CreateSurveyView(Displayable parentForm) {
+		this(new Survey(), parentForm);
+	}
+	
+	public CreateSurveyView(Survey survey, Displayable parentForm) {
 		super("Criar pesquisa");
 		this.parentForm = parentForm;
-		survey = new Survey();
+		this.survey = survey;
 		
-		tfTitle = new TextField("Titulo", null, getWidth(), TextField.ANY);
+		tfTitle = new TextField("Titulo", survey.title, getWidth(), TextField.ANY);
 		append(tfTitle);
 		addCommand(cmdSave);
 		addCommand(cmdAddQuestion);
@@ -37,7 +41,7 @@ public class CreateSurveyView extends Form implements CommandListener {
 		try {
 			survey.title = tfTitle.getString();
 			SurveyBS.createSurvey(survey);
-			MainView.showAlert(Constantes.MSG_DADOS_CADASTRADOS_SUCESSO, this);
+			MainView.showAlert(Constantes.MSG_DADOS_CADASTRADOS_SUCESSO, null);
 		} catch (MoremaException e) {
 			MainView.showAlert(e.getMessage(), null);
 		}
@@ -52,7 +56,7 @@ public class CreateSurveyView extends Form implements CommandListener {
 			if (survey.id == null) {
 				MainView.showAlert(Constantes.MSG_ERRO_NECESSARIO_SALVAR, null);
 			} else {
-				
+				MainView.getDisplay().setCurrent(new PrepareCreateQuestionView(survey, this));
 			}
 		}
 	}

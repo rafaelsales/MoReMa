@@ -55,7 +55,7 @@ public class QuestionBS {
 			throw new MoremaException(Constantes.MSG_ERRO_DADOS_INVALIDOS);
 		}
 		QuestionDAO dao = new QuestionDAO(question.surveyId);
-		dao.addRecord(question);
+		dao.saveRecord(question);
 	}
 	
 }
