@@ -70,13 +70,13 @@ public class ListSurveyView extends List implements CommandListener {
 		if (this.getSelectedIndex() != -1) {
 			survey = (Survey) listSurvey[this.getSelectedIndex()];
 		}
-		if (c.getLabel().equals(cmdAnswer.getLabel())) {
+		if (c == cmdAnswer) {
 			answer(survey);
-		} else if (c.getLabel().equals(cmdUpdate.getLabel())) {
+		} else if (c == cmdUpdate) {
 			select(survey);
-		} else if (c.getLabel().equals(cmdRemove.getLabel())) {
+		} else if (c == cmdRemove) {
 			remove(survey);
-		} else if (c.getLabel().equals(cmdBack.getLabel())) {
+		} else if (c == cmdBack) {
 			MainView.getDisplay().setCurrent(parentForm);
 		} else {
 			answer(survey);

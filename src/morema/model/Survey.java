@@ -6,5 +6,4 @@ public class Survey extends AbstractModel {
 	
 	public String title;
 	
-	public Vector questions;
 }

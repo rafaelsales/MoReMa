@@ -58,7 +58,7 @@ public class MainView extends MIDlet {
 		}
 
 		public void commandAction(Command c, Displayable d) {
-			if (c.getLabel().equals(cmdExit.getLabel())) {
+			if (c == cmdExit) {
 				try {
 					destroyApp(true);
 				} catch (MIDletStateChangeException e) {

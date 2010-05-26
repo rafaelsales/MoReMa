@@ -21,7 +21,7 @@ public class QuestionBS {
 		addQuestion(question);
 	}
 
-	public static void addMultipleChoiceMultipleAnswerQuestion(MultipleChoiceMultipleAnswerQuestion question) throws MoremaException {
+	public static void addMultipleChoiceQuestion(MultipleChoiceMultipleAnswerQuestion question) throws MoremaException {
 		if (question.choices.isEmpty()) {
 			throw new MoremaException(Constantes.MSG_ERRO_DADOS_INVALIDOS);
 		}

@@ -48,11 +48,11 @@ public class CreateSurveyView extends Form implements CommandListener {
 	}
 
 	public void commandAction(Command c, Displayable d) {
-		if (c.getLabel().equals(cmdSave.getLabel())) {
+		if (c == cmdSave) {
 			createSurvey();
-		} else if (c.getLabel().equals(cmdBack.getLabel())) {
+		} else if (c == cmdBack) {
 			MainView.getDisplay().setCurrent(parentForm);
-		} else if (c.getLabel().equals(cmdAddQuestion.getLabel())) {
+		} else if (c == cmdAddQuestion) {
 			if (survey.id == null) {
 				MainView.showAlert(Constantes.MSG_ERRO_NECESSARIO_SALVAR, null);
 			} else {

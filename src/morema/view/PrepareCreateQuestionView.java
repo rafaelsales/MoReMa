@@ -31,7 +31,7 @@ public class PrepareCreateQuestionView extends List implements CommandListener {
 	}
 	
 	public void commandAction(Command c, Displayable d) {
-		if (c.getLabel().equals(cmdBack.getLabel())) {
+		if (c == cmdBack) {
 			MainView.getDisplay().setCurrent(parentForm);
 		} else {
 			switch (this.getSelectedIndex()) {

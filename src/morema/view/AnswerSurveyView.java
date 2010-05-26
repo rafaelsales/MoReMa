@@ -99,9 +99,9 @@ public class AnswerSurveyView extends Form implements CommandListener {
 	}
 
 	public void commandAction(Command c, Displayable d) {
-		if (c.getLabel().equals(cmdBack.getLabel())) {
+		if (c == cmdBack) {
 			MainView.getDisplay().setCurrent(parentForm);
-		} else if (c.getLabel().equals(cmdSave.getLabel())) {
+		} else if (c == cmdSave) {
 			save();
 		}
 	}
