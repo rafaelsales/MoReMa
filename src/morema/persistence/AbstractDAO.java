@@ -30,7 +30,9 @@ public abstract class AbstractDAO {
 
 	public AbstractModel getRecordGeneric(int id) throws MoremaException {
 		try {
-			return deserialize(recordStore.getRecord(id));
+			AbstractModel model = deserialize(recordStore.getRecord(id));
+			model.id = new Integer(id);
+			return model;
 		} catch (Exception e) {
 			MoremaException.throwAsMoremaException(e);
 			return null;

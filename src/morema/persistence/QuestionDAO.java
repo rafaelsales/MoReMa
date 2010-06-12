@@ -44,9 +44,12 @@ public class QuestionDAO extends AbstractDAO {
 		} else if (questionTypeId.equals(Question.QUESTION_TYPE_FloatNumber)) {
 			
 		} else if (questionTypeId.equals(Question.QUESTION_TYPE_Open)) {
-			
+			fields = genericalDeserialize(data, new Class[] { Integer.class, String.class });
+			OpenQuestion question = new OpenQuestion((String) fields[1]);
+			question.surveyId = surveyId;
+			return question;
 		}
-		return null;
+		throw new UnsupportedOperationException();
 	}
 
 	protected byte[] serialize(AbstractModel model) {
@@ -62,7 +65,8 @@ public class QuestionDAO extends AbstractDAO {
 		} else if (model instanceof FloatNumberQuestion) {
 			
 		} else if (model instanceof OpenQuestion) {
-			
+			OpenQuestion question = (OpenQuestion) model;
+			objects = new Object[] { question.typeId, question.question };
 		}
 		return genericalSerialize(objects);
 	}

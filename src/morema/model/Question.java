@@ -15,7 +15,8 @@ public abstract class Question extends AbstractModel {
 		this.typeId = questionTypeId;
 	}
 	
-	public Integer surveyId;
+	public transient Integer surveyId;
+	
 	public Integer typeId;
 	public String question;
 }

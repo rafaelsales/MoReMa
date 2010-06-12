@@ -1,11 +1,14 @@
 package morema.view;
 
+import java.util.Vector;
+
 import javax.microedition.lcdui.ChoiceGroup;
 import javax.microedition.lcdui.Command;
 import javax.microedition.lcdui.CommandListener;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Form;
 import javax.microedition.lcdui.Item;
+import javax.microedition.lcdui.TextField;
 
 import morema.business.AnswerBS;
 import morema.business.QuestionBS;
@@ -52,7 +55,7 @@ public class AnswerSurveyView extends Form implements CommandListener {
 			} else if (genericQuestion.typeId.equals(Question.QUESTION_TYPE_FloatNumber)) {
 				
 			} else if (genericQuestion.typeId.equals(Question.QUESTION_TYPE_Open)) {
-				
+				fields[i] = new TextField(genericQuestion.question, null, getWidth(), TextField.ANY);
 			}
 			append((Item) fields[i]);
 		}
@@ -85,15 +88,23 @@ public class AnswerSurveyView extends Form implements CommandListener {
 				answer = new Answer(booleanAnswer);
 			} else if (genericQuestion.typeId.equals(Question.QUESTION_TYPE_MultipleChoiceMultipleAnswer) ||
 					genericQuestion.typeId.equals(Question.QUESTION_TYPE_MultipleChoiceOneAnswer)) {
-				MultipleChoice question = (MultipleChoice) genericQuestion;
 				ChoiceGroup choiceGroup = (ChoiceGroup) fields[i];
-//				answer = new Answer();
+				boolean[] choices = new boolean[choiceGroup.size()];
+				int numberSelectedAnswers = choiceGroup.getSelectedFlags(choices);
+				Vector idsSelectedChoices = new Vector(numberSelectedAnswers);
+				for (int j = 0; j < choices.length; j++) {
+					if (choices[j] == true) {
+						idsSelectedChoices.addElement(new Integer(j));
+					}
+				}
+				answer = new Answer(idsSelectedChoices);
 			} else if (genericQuestion.typeId.equals(Question.QUESTION_TYPE_IntegerNumber)) {
 				
 			} else if (genericQuestion.typeId.equals(Question.QUESTION_TYPE_FloatNumber)) {
 				
 			} else if (genericQuestion.typeId.equals(Question.QUESTION_TYPE_Open)) {
-				
+				TextField textField = (TextField) fields[i];
+				answer = new Answer(textField.getString());
 			}
 			answer.surveyId = survey.id;
 			answer.questionId = genericQuestion.id;

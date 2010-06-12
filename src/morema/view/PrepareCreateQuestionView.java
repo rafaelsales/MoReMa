@@ -45,6 +45,7 @@ public class PrepareCreateQuestionView extends List implements CommandListener {
 			case 3:
 				break;
 			case 4:
+				MainView.getDisplay().setCurrent(new CreateOpenQuestionView(survey, parentForm));
 				break;
 			}
 		}

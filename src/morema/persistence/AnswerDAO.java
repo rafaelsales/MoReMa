@@ -1,9 +1,10 @@
 package morema.persistence;
 
+import java.util.Vector;
+
 import morema.model.AbstractModel;
 import morema.model.Answer;
 import morema.model.Question;
-import morema.model.TrueFalseQuestion;
 import morema.util.MoremaException;
 
 public class AnswerDAO extends AbstractDAO {
@@ -22,23 +23,24 @@ public class AnswerDAO extends AbstractDAO {
 	protected AbstractModel deserialize(byte[] data) {
 		Object[] fields = genericalDeserialize(data, new Class[] { Integer.class });
 		Integer questionTypeId = ((Integer)fields[0]);
-		Answer answer = null;
+		Class answerType = null;
 		if (questionTypeId.equals(Question.QUESTION_TYPE_TrueFalse)) {
-			fields = genericalDeserialize(data, new Class[] { Integer.class, Integer.class, Boolean.class });
-			TrueFalseQuestion question = new TrueFalseQuestion((String) fields[1]);
-			question.surveyId = surveyId;
-			return question;
-		} else if (questionTypeId.equals(Question.QUESTION_TYPE_MultipleChoiceMultipleAnswer)) {
-			
-		} else if (questionTypeId.equals(Question.QUESTION_TYPE_MultipleChoiceOneAnswer)) {
-			
+			answerType = Boolean.class;
+		} else if (questionTypeId.equals(Question.QUESTION_TYPE_MultipleChoiceMultipleAnswer) ||
+				questionTypeId.equals(Question.QUESTION_TYPE_MultipleChoiceOneAnswer)) {
+			answerType = Vector.class;
 		} else if (questionTypeId.equals(Question.QUESTION_TYPE_IntegerNumber)) {
-			
+			answerType = Integer.class;
 		} else if (questionTypeId.equals(Question.QUESTION_TYPE_FloatNumber)) {
-			
+			answerType = Float.class;
 		} else if (questionTypeId.equals(Question.QUESTION_TYPE_Open)) {
-			
+			answerType = String.class;
 		}
+		fields = genericalDeserialize(data, new Class[] { Integer.class, Integer.class, answerType });
+		Answer answer = new Answer(fields[2]);
+		answer.questionTypeId = (Integer) fields[0];
+		answer.questionId = (Integer) fields[1];
+		answer.surveyId = surveyId;
 		return answer;
 	}
 
