@@ -36,6 +36,11 @@ public class MainView extends MIDlet {
 		return Display.getDisplay(midlet);
 	}
 	
+	public static void showAlert(Exception e, Displayable nextForm) {
+		e.printStackTrace();
+		showAlert(e.getMessage(), nextForm);
+	}
+	
 	public static void showAlert(String msg, Displayable nextForm) {
 		if (nextForm == null) {
 			getDisplay().setCurrent(new Alert(msg));
@@ -74,7 +79,7 @@ public class MainView extends MIDlet {
 						break;
 					}
 				} catch (MoremaException e) {
-					MainView.showAlert(e.getMessage(), null);
+					MainView.showAlert(e, null);
 				}
 			}
 		}

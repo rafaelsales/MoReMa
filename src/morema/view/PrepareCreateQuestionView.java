@@ -20,8 +20,7 @@ public class PrepareCreateQuestionView extends List implements CommandListener {
 		this.parentForm = parentForm;
 		
 		append("Sim/Não", null);
-		append("Múltipla escolha - Múltipla resposta", null);
-		append("Múltipla escolha - Uma resposta", null);
+		append("Múltipla escolha", null);
 		append("Número inteiro", null);
 		append("Número decimal", null);
 		append("Aberta", null);
@@ -39,12 +38,13 @@ public class PrepareCreateQuestionView extends List implements CommandListener {
 				MainView.getDisplay().setCurrent(new CreateTrueFalseQuestionView(survey, parentForm));
 				break;
 			case 1:
+				MainView.getDisplay().setCurrent(new CreateMultipleChoiceQuestionView(survey, parentForm));
+				break;
+			case 2:
 				break;
 			case 3:
 				break;
 			case 4:
-				break;
-			case 5:
 				break;
 			}
 		}

@@ -44,7 +44,7 @@ public class ListSurveyView extends List implements CommandListener {
 			try {
 				SurveyBS.removeSurvey(survey);
 			} catch (MoremaException e) {
-				MainView.showAlert(e.getMessage(), null);
+				MainView.showAlert(e, null);
 			}
 		}
 	}
@@ -60,7 +60,7 @@ public class ListSurveyView extends List implements CommandListener {
 			try {
 				MainView.getDisplay().setCurrent(new AnswerSurveyView(survey, this));
 			} catch (MoremaException e) {
-				MainView.showAlert(e.getMessage(), null);
+				MainView.showAlert(e, null);
 			}
 		}
 	}

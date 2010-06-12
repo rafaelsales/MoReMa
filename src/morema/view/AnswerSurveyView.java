@@ -5,10 +5,12 @@ import javax.microedition.lcdui.Command;
 import javax.microedition.lcdui.CommandListener;
 import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.Form;
+import javax.microedition.lcdui.Item;
 
 import morema.business.AnswerBS;
 import morema.business.QuestionBS;
 import morema.model.Answer;
+import morema.model.MultipleChoice;
 import morema.model.Question;
 import morema.model.Survey;
 import morema.util.MoremaException;
@@ -35,12 +37,16 @@ public class AnswerSurveyView extends Form implements CommandListener {
 				ChoiceGroup choiceGroup = new ChoiceGroup(genericQuestion.question, ChoiceGroup.EXCLUSIVE);
 				choiceGroup.append("Não", null);
 				choiceGroup.append("Sim", null);
-				append(choiceGroup);
 				fields[i] = choiceGroup;
-			} else if (genericQuestion.typeId.equals(Question.QUESTION_TYPE_MultipleChoiceMultipleAnswer)) {
-				
-			} else if (genericQuestion.typeId.equals(Question.QUESTION_TYPE_MultipleChoiceOneAnswer)) {
-				
+			} else if (genericQuestion.typeId.equals(Question.QUESTION_TYPE_MultipleChoiceMultipleAnswer) ||
+					genericQuestion.typeId.equals(Question.QUESTION_TYPE_MultipleChoiceOneAnswer)) {
+				MultipleChoice question = (MultipleChoice) genericQuestion;
+				int choiceType = question.multipleAnswer ? ChoiceGroup.MULTIPLE : ChoiceGroup.EXCLUSIVE;
+				ChoiceGroup choiceGroup = new ChoiceGroup(genericQuestion.question, choiceType);
+				for (int j = 0; j < question.choices.size(); j++) {
+					choiceGroup.append((String) question.choices.elementAt(j), null);
+				}
+				fields[i] = choiceGroup;
 			} else if (genericQuestion.typeId.equals(Question.QUESTION_TYPE_IntegerNumber)) {
 				
 			} else if (genericQuestion.typeId.equals(Question.QUESTION_TYPE_FloatNumber)) {
@@ -48,6 +54,7 @@ public class AnswerSurveyView extends Form implements CommandListener {
 			} else if (genericQuestion.typeId.equals(Question.QUESTION_TYPE_Open)) {
 				
 			}
+			append((Item) fields[i]);
 		}
 		
 		addCommand(cmdBack);
@@ -76,10 +83,11 @@ public class AnswerSurveyView extends Form implements CommandListener {
 					booleanAnswer = Boolean.TRUE;
 				}
 				answer = new Answer(booleanAnswer);
-			} else if (genericQuestion.typeId.equals(Question.QUESTION_TYPE_MultipleChoiceMultipleAnswer)) {
-				
-			} else if (genericQuestion.typeId.equals(Question.QUESTION_TYPE_MultipleChoiceOneAnswer)) {
-				
+			} else if (genericQuestion.typeId.equals(Question.QUESTION_TYPE_MultipleChoiceMultipleAnswer) ||
+					genericQuestion.typeId.equals(Question.QUESTION_TYPE_MultipleChoiceOneAnswer)) {
+				MultipleChoice question = (MultipleChoice) genericQuestion;
+				ChoiceGroup choiceGroup = (ChoiceGroup) fields[i];
+//				answer = new Answer();
 			} else if (genericQuestion.typeId.equals(Question.QUESTION_TYPE_IntegerNumber)) {
 				
 			} else if (genericQuestion.typeId.equals(Question.QUESTION_TYPE_FloatNumber)) {
@@ -93,7 +101,7 @@ public class AnswerSurveyView extends Form implements CommandListener {
 			try {
 				AnswerBS.answer(answer);
 			} catch (MoremaException e) {
-				MainView.showAlert(e.getMessage(), null);
+				MainView.showAlert(e, null);
 			}
 		}
 	}

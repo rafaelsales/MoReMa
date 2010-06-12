@@ -13,6 +13,8 @@ import morema.util.Util;
 public abstract class AbstractDAO {
 
 	public static final char FIELD_SEPARATOR = '|';
+	public static final char FIELD_ARRAY_START_SEPARATOR = '[';
+	public static final char FIELD_ARRAY_END_SEPARATOR = ']';
 
 	protected String recordStoreName;
 	protected static RecordStore recordStore = null; //Current opened RecordStore
@@ -77,6 +79,8 @@ public abstract class AbstractDAO {
 		for (int i = 0; i < values.length; i++) {
 			if (values[i] == null) {
 				string.append(FIELD_SEPARATOR);
+			} else if (values[i] instanceof Vector) {
+				string.append(vectorToString((Vector) values[i]) + FIELD_SEPARATOR);
 			} else {
 				string.append(values[i].toString() + FIELD_SEPARATOR);
 			}
@@ -89,9 +93,10 @@ public abstract class AbstractDAO {
 		Object[] objects = new Object[types.length];
 		StringBuffer auxStringBuffer = new StringBuffer();
 		int currentField = 0;
+		boolean readingVector = false;
 		for (int i = 0; (i < data.length) && (currentField < types.length); i++) {
 			char charI = dataString.charAt(i);
-			if (charI == FIELD_SEPARATOR) {
+			if (charI == FIELD_SEPARATOR && !readingVector) {
 				if (auxStringBuffer.length() == 0) {
 					if (types[currentField].equals(String.class)) {
 						objects[currentField] = "";
@@ -107,7 +112,7 @@ public abstract class AbstractDAO {
 							if (stringValue.equals("true")) {
 								objects[currentField] = Boolean.TRUE;
 							} else {
-								objects[currentField] = Boolean.FALSE;	
+								objects[currentField] = Boolean.FALSE;
 							}
 						} else if (types[currentField].equals(Character.class)) {
 							objects[currentField] = new Character(stringValue.charAt(0));
@@ -121,6 +126,8 @@ public abstract class AbstractDAO {
 							objects[currentField] = new Long(Long.parseLong(stringValue));
 						} else if (types[currentField].equals(Boolean.class)) {
 							objects[currentField] = stringValue.equals("true") ? Boolean.TRUE : Boolean.FALSE;
+						} else if (types[currentField].equals(Vector.class)) {
+							objects[currentField] = stringToVector(stringValue);
 						} else {
 							throw new RuntimeException("Unexpected type: " + types[currentField].getName());
 						}
@@ -132,10 +139,42 @@ public abstract class AbstractDAO {
 				currentField++;
 				auxStringBuffer = new StringBuffer();
 			} else {
+				if (charI == '[') {
+					readingVector = true;
+				} else if (charI == ']') {
+					readingVector = false;
+				}
 				auxStringBuffer.append(charI);
 			}
 		}
 		return objects;
+	}
+	
+	private static String vectorToString(Vector vector) {
+		StringBuffer auxStringBuffer = new StringBuffer();
+		auxStringBuffer.append("[");
+		for (int i = 0; i < vector.size(); i++) {
+			auxStringBuffer.append(vector.elementAt(i).toString() + FIELD_SEPARATOR);
+		}
+		auxStringBuffer.append("]");
+		return auxStringBuffer.toString();
+	}
+	
+	private static Vector stringToVector(String vectorString) {
+		Vector vector = new Vector();
+		StringBuffer auxStringBuffer = new StringBuffer();
+		int currentField = 0;
+		for (int i = 1; i < vectorString.length() - 1; i++) {
+			char charI = vectorString.charAt(i);
+			if (charI == FIELD_SEPARATOR) {
+				vector.addElement(auxStringBuffer.toString());
+				currentField++;
+				auxStringBuffer = new StringBuffer();
+			} else {				
+				auxStringBuffer.append(charI);
+			}
+		}
+		return vector;
 	}
 	
 	public static void main(String[] args) {
