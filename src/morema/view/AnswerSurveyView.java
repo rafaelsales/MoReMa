@@ -16,6 +16,7 @@ import morema.model.Answer;
 import morema.model.MultipleChoiceQuestion;
 import morema.model.Question;
 import morema.model.Survey;
+import morema.util.Constantes;
 import morema.util.MoremaException;
 import morema.util.Util;
 
@@ -65,49 +66,50 @@ public class AnswerSurveyView extends Form implements CommandListener {
 	}
 	
 	private void save() {
-		for (int i = 0; i < questions.length; i++) {
-			Question question = (Question) questions[i];
-			Answer answer = null;
-			if (question.typeId.equals(Question.QUESTION_TYPE_TrueFalse)) {
-				ChoiceGroup choiceGroup = (ChoiceGroup) fields[i];
-				Boolean booleanAnswer;
-				if (choiceGroup.getSelectedIndex() == 0) {
-					booleanAnswer = Boolean.FALSE;
-				} else {
-					booleanAnswer = Boolean.TRUE;
-				}
-				answer = new Answer(booleanAnswer);
-			} else if (question.typeId.equals(Question.QUESTION_TYPE_MultipleChoiceMultipleAnswer) ||
-					question.typeId.equals(Question.QUESTION_TYPE_MultipleChoiceOneAnswer)) {
-				ChoiceGroup choiceGroup = (ChoiceGroup) fields[i];
-				boolean[] choices = new boolean[choiceGroup.size()];
-				int numberSelectedAnswers = choiceGroup.getSelectedFlags(choices);
-				Vector idsSelectedChoices = new Vector(numberSelectedAnswers);
-				for (int j = 0; j < choices.length; j++) {
-					if (choices[j] == true) {
-						idsSelectedChoices.addElement(new Integer(j));
+		try {
+			for (int i = 0; i < questions.length; i++) {
+				Question question = (Question) questions[i];
+				Answer answer = null;
+				if (question.typeId.equals(Question.QUESTION_TYPE_TrueFalse)) {
+					ChoiceGroup choiceGroup = (ChoiceGroup) fields[i];
+					Boolean booleanAnswer;
+					if (choiceGroup.getSelectedIndex() == 0) {
+						booleanAnswer = Boolean.FALSE;
+					} else {
+						booleanAnswer = Boolean.TRUE;
 					}
+					answer = new Answer(booleanAnswer);
+				} else if (question.typeId.equals(Question.QUESTION_TYPE_MultipleChoiceMultipleAnswer) ||
+						question.typeId.equals(Question.QUESTION_TYPE_MultipleChoiceOneAnswer)) {
+					ChoiceGroup choiceGroup = (ChoiceGroup) fields[i];
+					boolean[] choices = new boolean[choiceGroup.size()];
+					int numberSelectedAnswers = choiceGroup.getSelectedFlags(choices);
+					Vector idsSelectedChoices = new Vector(numberSelectedAnswers);
+					for (int j = 0; j < choices.length; j++) {
+						if (choices[j] == true) {
+							idsSelectedChoices.addElement(new Integer(j));
+						}
+					}
+					answer = new Answer(idsSelectedChoices);
+				} else if (question.typeId.equals(Question.QUESTION_TYPE_FloatNumber)) {
+					TextField textField = (TextField) fields[i];
+					Float floatValue = null;
+					if (!Util.isEmpty(textField.getString())) {
+						floatValue = Float.valueOf(textField.getString());
+					}
+					answer = new Answer(floatValue);
+				} else if (question.typeId.equals(Question.QUESTION_TYPE_Open)) {
+					TextField textField = (TextField) fields[i];
+					answer = new Answer(textField.getString());
 				}
-				answer = new Answer(idsSelectedChoices);
-			} else if (question.typeId.equals(Question.QUESTION_TYPE_FloatNumber)) {
-				TextField textField = (TextField) fields[i];
-				Float floatValue = null;
-				if (!Util.isEmpty(textField.getString())) {
-					floatValue = Float.valueOf(textField.getString());
-				}
-				answer = new Answer(floatValue);
-			} else if (question.typeId.equals(Question.QUESTION_TYPE_Open)) {
-				TextField textField = (TextField) fields[i];
-				answer = new Answer(textField.getString());
-			}
-			answer.surveyId = survey.id;
-			answer.questionId = question.id;
-			answer.questionTypeId = question.typeId;
-			try {
+				answer.surveyId = survey.id;
+				answer.questionId = question.id;
+				answer.questionTypeId = question.typeId;
 				AnswerBS.save(answer, question);
-			} catch (MoremaException e) {
-				MainView.showAlert(e, null);
 			}
+			MainView.showAlert(Constantes.MSG_DADOS_CADASTRADOS_SUCESSO, parentForm, false);
+		} catch (MoremaException e) {
+			MainView.showAlert(e, null);
 		}
 	}
 
