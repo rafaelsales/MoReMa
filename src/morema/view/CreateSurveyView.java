@@ -41,7 +41,7 @@ public class CreateSurveyView extends Form implements CommandListener {
 		try {
 			survey.title = tfTitle.getString();
 			SurveyBS.save(survey);
-			MainView.showAlert(Constantes.MSG_DADOS_CADASTRADOS_SUCESSO, null);
+			MainView.showAlert(Constantes.MSG_DADOS_CADASTRADOS_SUCESSO, null, false);
 		} catch (MoremaException e) {
 			MainView.showAlert(e, null);
 		}
@@ -54,7 +54,7 @@ public class CreateSurveyView extends Form implements CommandListener {
 			MainView.getDisplay().setCurrent(parentForm);
 		} else if (c == cmdAddQuestion) {
 			if (survey.id == null) {
-				MainView.showAlert(Constantes.MSG_ERRO_NECESSARIO_SALVAR, null);
+				MainView.showAlert(Constantes.MSG_ERRO_NECESSARIO_SALVAR, null, true);
 			} else {
 				MainView.getDisplay().setCurrent(new PrepareCreateQuestionView(survey, this));
 			}

@@ -19,7 +19,7 @@ public class CreateTrueFalseQuestionView extends AbstractCreateQuestionView {
 		question.surveyId = survey.id;
 		try {
 			QuestionBS.addTrueFalseQuestion(question);
-			MainView.showAlert(Constantes.MSG_DADOS_CADASTRADOS_SUCESSO, parentForm);
+			MainView.showAlert(Constantes.MSG_DADOS_CADASTRADOS_SUCESSO, parentForm, false);
 		} catch (MoremaException e) {
 			MainView.showAlert(e, null);
 		}

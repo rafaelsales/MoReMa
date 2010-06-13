@@ -1,6 +1,9 @@
 package morema.util;
 
 public interface Constantes {
+	
+	String TITULO_APLICACAO = "MoReMa";
+	
 	String MSG_ERRO_PERSISTENCIA = "Erro ao gravar/consultar os dados.";
 	String MSG_ERRO_PERSISTENCIA_FECHADA = "Unidade de persistencia não está aberta.";
 	String MSG_ERRO_PERSISTENCIA_NAO_ENCONTRADA = "Unidade de persistencia não encontrada.";

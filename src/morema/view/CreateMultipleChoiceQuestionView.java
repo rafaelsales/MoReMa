@@ -48,7 +48,7 @@ public class CreateMultipleChoiceQuestionView extends AbstractCreateQuestionView
 			MultipleChoiceQuestion question = new MultipleChoiceQuestion(tfTitle.getString(), listChoices, multipleAnswer);
 			question.surveyId = survey.id;
 			QuestionBS.addMultipleChoiceQuestion(question);
-			MainView.showAlert(Constantes.MSG_DADOS_CADASTRADOS_SUCESSO, parentForm);
+			MainView.showAlert(Constantes.MSG_DADOS_CADASTRADOS_SUCESSO, parentForm, false);
 		} catch (MoremaException e) {
 			MainView.showAlert(e, null);
 		}

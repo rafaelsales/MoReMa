@@ -1,6 +1,7 @@
 package morema.view;
 
 import javax.microedition.lcdui.Alert;
+import javax.microedition.lcdui.AlertType;
 import javax.microedition.lcdui.Choice;
 import javax.microedition.lcdui.Command;
 import javax.microedition.lcdui.CommandListener;
@@ -10,6 +11,7 @@ import javax.microedition.lcdui.List;
 import javax.microedition.midlet.MIDlet;
 import javax.microedition.midlet.MIDletStateChangeException;
 
+import morema.util.Constantes;
 import morema.util.MoremaException;
 
 public class MainView extends MIDlet {
@@ -38,14 +40,15 @@ public class MainView extends MIDlet {
 	
 	public static void showAlert(Exception e, Displayable nextForm) {
 		e.printStackTrace();
-		showAlert(e.getMessage(), nextForm);
+		showAlert(e.getMessage(), nextForm, true);
 	}
 	
-	public static void showAlert(String msg, Displayable nextForm) {
+	public static void showAlert(String msg, Displayable nextForm, boolean isError) {
+		Alert alert = new Alert(Constantes.TITULO_APLICACAO, msg, null, (isError ? AlertType.ERROR : AlertType.INFO));
 		if (nextForm == null) {
-			getDisplay().setCurrent(new Alert(msg));
+			getDisplay().setCurrent(alert);
 		} else {
-			getDisplay().setCurrent(new Alert(msg), nextForm);
+			getDisplay().setCurrent(alert, nextForm);
 		}
 	}
 
