@@ -28,6 +28,12 @@ public abstract class AbstractDAO {
 		}
 	}
 
+	/**
+	 * Carrega um registro a partir de seu id único
+	 * @param id
+	 * @return
+	 * @throws MoremaException
+	 */
 	public AbstractModel getRecordGeneric(int id) throws MoremaException {
 		try {
 			AbstractModel model = deserialize(recordStore.getRecord(id));
@@ -39,6 +45,11 @@ public abstract class AbstractDAO {
 		}
 	}
 
+	/**
+	 * Retorna todos os registros do RecordStore
+	 * @return
+	 * @throws MoremaException
+	 */
 	public Object[] getRecords() throws MoremaException {
 		Vector records = null;
 		try {
@@ -76,6 +87,11 @@ public abstract class AbstractDAO {
 
 	protected abstract AbstractModel deserialize(byte[] data);
 
+	/**
+	 * Serializa os objetos do array values em bytes
+	 * @param values
+	 * @return
+	 */
 	public static byte[] genericalSerialize(Object[] values) {
 		StringBuffer string = new StringBuffer();
 		for (int i = 0; i < values.length; i++) {
@@ -84,12 +100,25 @@ public abstract class AbstractDAO {
 			} else if (values[i] instanceof Vector) {
 				string.append(vectorToString((Vector) values[i]) + FIELD_SEPARATOR);
 			} else {
+				//Substitui os caracteres de controle por caracteres similares:
+				if (values[i] instanceof String) {
+					String valueAsString = ((String) values[i]);
+					valueAsString.replace(FIELD_ARRAY_START_SEPARATOR, '(');
+					valueAsString.replace(FIELD_ARRAY_END_SEPARATOR, ')');
+					valueAsString.replace(FIELD_SEPARATOR, ';');
+				}
 				string.append(values[i].toString() + FIELD_SEPARATOR);
 			}
 		}
 		return string.toString().getBytes();
 	}
 
+	/**
+	 * Desserializa os bytes de data em objetos seguindo os tipos de objetos esperados no array types
+	 * @param data
+	 * @param types
+	 * @return
+	 */
 	public static Object[] genericalDeserialize(byte[] data, Class[] types) {
 		String dataString = new String(data);
 		Object[] objects = new Object[types.length];
@@ -141,9 +170,9 @@ public abstract class AbstractDAO {
 				currentField++;
 				auxStringBuffer = new StringBuffer();
 			} else {
-				if (charI == '[') {
+				if (charI == FIELD_ARRAY_START_SEPARATOR) {
 					readingVector = true;
-				} else if (charI == ']') {
+				} else if (charI == FIELD_ARRAY_END_SEPARATOR) {
 					readingVector = false;
 				}
 				auxStringBuffer.append(charI);
@@ -152,16 +181,26 @@ public abstract class AbstractDAO {
 		return objects;
 	}
 	
+	/**
+	 * Serializa um objeto Vector
+	 * @param vector
+	 * @return
+	 */
 	private static String vectorToString(Vector vector) {
 		StringBuffer auxStringBuffer = new StringBuffer();
-		auxStringBuffer.append("[");
+		auxStringBuffer.append(FIELD_ARRAY_START_SEPARATOR);
 		for (int i = 0; i < vector.size(); i++) {
 			auxStringBuffer.append(vector.elementAt(i).toString() + FIELD_SEPARATOR);
 		}
-		auxStringBuffer.append("]");
+		auxStringBuffer.append(FIELD_ARRAY_END_SEPARATOR);
 		return auxStringBuffer.toString();
 	}
 	
+	/**
+	 * Desserializa um objeto Vector a partir de sua representação serializada
+	 * @param vectorString
+	 * @return
+	 */
 	private static Vector stringToVector(String vectorString) {
 		Vector vector = new Vector();
 		StringBuffer auxStringBuffer = new StringBuffer();
@@ -179,17 +218,12 @@ public abstract class AbstractDAO {
 		return vector;
 	}
 	
-	public static void main(String[] args) {
-		Float a = new Float(3.15f);
-		String b = "Hello guys!";
-		Boolean c = Boolean.FALSE;
-		Character d = new Character('k');
-		Integer e = new Integer(210);
-		byte[] genericalSerialized = genericalSerialize(new Object[] { a, b, c, d, e });
-		System.out.println(new String(genericalSerialized));
-		System.out.println(genericalDeserialize(genericalSerialized, new Class[] { Float.class, String.class, Boolean.class, Character.class, Integer.class }));
-	}
-	
+	/**
+	 * Abre um RecordStore no dispositivo. Caso não exista, o RecordStore é criado.
+	 * Este método gerencia os RecordStores de forma que somente um esteja aberto por vez. 
+	 * @param recordStoreName
+	 * @throws MoremaException
+	 */
 	private static void openRecordStore(String recordStoreName) throws MoremaException {
 		//Caso haja outro RecordStore aberto, fecha para abrir o RecordStore solicitado:
 		boolean recordStoreOpened = false;
@@ -211,5 +245,16 @@ public abstract class AbstractDAO {
 				MoremaException.throwAsMoremaException(e);
 			}
 		}
+	}
+	
+	public static void main(String[] args) {
+		Float a = new Float(3.15f);
+		String b = "Hello guys!";
+		Boolean c = Boolean.FALSE;
+		Character d = new Character('k');
+		Integer e = new Integer(210);
+		byte[] genericalSerialized = genericalSerialize(new Object[] { a, b, c, d, e });
+		System.out.println(new String(genericalSerialized));
+		System.out.println(genericalDeserialize(genericalSerialized, new Class[] { Float.class, String.class, Boolean.class, Character.class, Integer.class }));
 	}
 }

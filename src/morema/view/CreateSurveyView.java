@@ -43,7 +43,7 @@ public class CreateSurveyView extends Form implements CommandListener {
 			SurveyBS.createSurvey(survey);
 			MainView.showAlert(Constantes.MSG_DADOS_CADASTRADOS_SUCESSO, null);
 		} catch (MoremaException e) {
-			MainView.showAlert(e.getMessage(), null);
+			MainView.showAlert(e, null);
 		}
 	}
 

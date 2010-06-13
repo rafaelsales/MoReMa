@@ -40,9 +40,15 @@ public class QuestionDAO extends AbstractDAO {
 			question.surveyId = surveyId;
 			return question;
 		} else if (questionTypeId.equals(Question.QUESTION_TYPE_IntegerNumber)) {
-			
+			fields = genericalDeserialize(data, new Class[] { Integer.class, String.class, Integer.class, Integer.class });
+			IntegerNumberQuestion question = new IntegerNumberQuestion((String) fields[1], (Integer) fields[2], (Integer) fields[3]);
+			question.surveyId = surveyId;
+			return question;
 		} else if (questionTypeId.equals(Question.QUESTION_TYPE_FloatNumber)) {
-			
+			fields = genericalDeserialize(data, new Class[] { Integer.class, String.class, Float.class, Float.class });
+			FloatNumberQuestion question = new FloatNumberQuestion((String) fields[1], (Float) fields[2], (Float) fields[3]);
+			question.surveyId = surveyId;
+			return question;
 		} else if (questionTypeId.equals(Question.QUESTION_TYPE_Open)) {
 			fields = genericalDeserialize(data, new Class[] { Integer.class, String.class });
 			OpenQuestion question = new OpenQuestion((String) fields[1]);
@@ -61,9 +67,11 @@ public class QuestionDAO extends AbstractDAO {
 			MultipleChoice question = (MultipleChoice) model;
 			objects = new Object[] { question.typeId, question.question, question.choices };
 		} else if (model instanceof IntegerNumberQuestion) {
-			
+			IntegerNumberQuestion question = (IntegerNumberQuestion) model;
+			objects = new Object[] { question.typeId, question.question, question.lowerBound, question.upperBound };
 		} else if (model instanceof FloatNumberQuestion) {
-			
+			FloatNumberQuestion question = (FloatNumberQuestion) model;
+			objects = new Object[] { question.typeId, question.question, question.lowerBound, question.upperBound };
 		} else if (model instanceof OpenQuestion) {
 			OpenQuestion question = (OpenQuestion) model;
 			objects = new Object[] { question.typeId, question.question };

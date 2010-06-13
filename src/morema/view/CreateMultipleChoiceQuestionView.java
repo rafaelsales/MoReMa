@@ -50,7 +50,7 @@ public class CreateMultipleChoiceQuestionView extends AbstractCreateQuestionView
 			QuestionBS.addMultipleChoiceQuestion(question);
 			MainView.showAlert(Constantes.MSG_DADOS_CADASTRADOS_SUCESSO, parentForm);
 		} catch (MoremaException e) {
-			MainView.showAlert(e.getMessage(), null);
+			MainView.showAlert(e, null);
 		}
 	}
 	

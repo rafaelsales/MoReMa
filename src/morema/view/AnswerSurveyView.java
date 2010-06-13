@@ -17,6 +17,7 @@ import morema.model.MultipleChoice;
 import morema.model.Question;
 import morema.model.Survey;
 import morema.util.MoremaException;
+import morema.util.Util;
 
 public class AnswerSurveyView extends Form implements CommandListener {
 
@@ -51,9 +52,9 @@ public class AnswerSurveyView extends Form implements CommandListener {
 				}
 				fields[i] = choiceGroup;
 			} else if (genericQuestion.typeId.equals(Question.QUESTION_TYPE_IntegerNumber)) {
-				
+				fields[i] = new TextField(genericQuestion.question, null, getWidth(), TextField.NUMERIC);
 			} else if (genericQuestion.typeId.equals(Question.QUESTION_TYPE_FloatNumber)) {
-				
+				fields[i] = new TextField(genericQuestion.question, null, getWidth(), TextField.DECIMAL);
 			} else if (genericQuestion.typeId.equals(Question.QUESTION_TYPE_Open)) {
 				fields[i] = new TextField(genericQuestion.question, null, getWidth(), TextField.ANY);
 			}
@@ -99,9 +100,19 @@ public class AnswerSurveyView extends Form implements CommandListener {
 				}
 				answer = new Answer(idsSelectedChoices);
 			} else if (genericQuestion.typeId.equals(Question.QUESTION_TYPE_IntegerNumber)) {
-				
+				TextField textField = (TextField) fields[i];
+				Integer integerValue = null;
+				if (!Util.isEmpty(textField.getString())) {
+					integerValue = Integer.valueOf(textField.getString());
+				}
+				answer = new Answer(integerValue);
 			} else if (genericQuestion.typeId.equals(Question.QUESTION_TYPE_FloatNumber)) {
-				
+				TextField textField = (TextField) fields[i];
+				Float floatValue = null;
+				if (!Util.isEmpty(textField.getString())) {
+					floatValue = Float.valueOf(textField.getString());
+				}
+				answer = new Answer(floatValue);
 			} else if (genericQuestion.typeId.equals(Question.QUESTION_TYPE_Open)) {
 				TextField textField = (TextField) fields[i];
 				answer = new Answer(textField.getString());
