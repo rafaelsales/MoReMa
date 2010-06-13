@@ -42,7 +42,7 @@ public class ListSurveyView extends List implements CommandListener {
 	public void remove(Survey survey) {
 		if (survey != null) {
 			try {
-				SurveyBS.removeSurvey(survey);
+				SurveyBS.remove(survey);
 			} catch (MoremaException e) {
 				MainView.showAlert(e, null);
 			}

@@ -8,7 +8,7 @@ import javax.microedition.lcdui.Displayable;
 import javax.microedition.lcdui.TextField;
 
 import morema.business.QuestionBS;
-import morema.model.MultipleChoice;
+import morema.model.MultipleChoiceQuestion;
 import morema.model.Survey;
 import morema.util.Constantes;
 import morema.util.MoremaException;
@@ -45,7 +45,7 @@ public class CreateMultipleChoiceQuestionView extends AbstractCreateQuestionView
 		}
 		try {
 			boolean multipleAnswer = (cgMultipleAnswer.getSelectedIndex() == 1);
-			MultipleChoice question = new MultipleChoice(tfTitle.getString(), listChoices, multipleAnswer);
+			MultipleChoiceQuestion question = new MultipleChoiceQuestion(tfTitle.getString(), listChoices, multipleAnswer);
 			question.surveyId = survey.id;
 			QuestionBS.addMultipleChoiceQuestion(question);
 			MainView.showAlert(Constantes.MSG_DADOS_CADASTRADOS_SUCESSO, parentForm);

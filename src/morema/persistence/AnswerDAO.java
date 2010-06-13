@@ -29,8 +29,6 @@ public class AnswerDAO extends AbstractDAO {
 		} else if (questionTypeId.equals(Question.QUESTION_TYPE_MultipleChoiceMultipleAnswer) ||
 				questionTypeId.equals(Question.QUESTION_TYPE_MultipleChoiceOneAnswer)) {
 			answerType = Vector.class;
-		} else if (questionTypeId.equals(Question.QUESTION_TYPE_IntegerNumber)) {
-			answerType = Integer.class;
 		} else if (questionTypeId.equals(Question.QUESTION_TYPE_FloatNumber)) {
 			answerType = Float.class;
 		} else if (questionTypeId.equals(Question.QUESTION_TYPE_Open)) {

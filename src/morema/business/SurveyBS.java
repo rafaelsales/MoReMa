@@ -11,7 +11,7 @@ public class SurveyBS {
 	private SurveyBS() {
 	}
 
-	public static void createSurvey(Survey survey) throws MoremaException {
+	public static void save(Survey survey) throws MoremaException {
 		survey.title = survey.title.trim();
 		SurveyDAO dao = new SurveyDAO();
 		if (Util.isEmpty(survey.title)) {
@@ -25,7 +25,7 @@ public class SurveyBS {
 		dao.saveRecord(survey);
 	}
 
-	public static void removeSurvey(Survey survey) throws MoremaException {
+	public static void remove(Survey survey) throws MoremaException {
 	}
 	
 	public static Object[] list() throws MoremaException {

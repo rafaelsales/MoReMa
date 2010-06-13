@@ -37,10 +37,10 @@ public class CreateSurveyView extends Form implements CommandListener {
 		setCommandListener(this);
 	}
 
-	private void createSurvey() {
+	private void saveSurvey() {
 		try {
 			survey.title = tfTitle.getString();
-			SurveyBS.createSurvey(survey);
+			SurveyBS.save(survey);
 			MainView.showAlert(Constantes.MSG_DADOS_CADASTRADOS_SUCESSO, null);
 		} catch (MoremaException e) {
 			MainView.showAlert(e, null);
@@ -49,7 +49,7 @@ public class CreateSurveyView extends Form implements CommandListener {
 
 	public void commandAction(Command c, Displayable d) {
 		if (c == cmdSave) {
-			createSurvey();
+			saveSurvey();
 		} else if (c == cmdBack) {
 			MainView.getDisplay().setCurrent(parentForm);
 		} else if (c == cmdAddQuestion) {

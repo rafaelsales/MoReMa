@@ -21,7 +21,6 @@ public class PrepareCreateQuestionView extends List implements CommandListener {
 		
 		append("Sim/Não", null);
 		append("Múltipla escolha", null);
-		append("Número inteiro", null);
 		append("Número decimal", null);
 		append("Aberta", null);
 		
@@ -41,12 +40,9 @@ public class PrepareCreateQuestionView extends List implements CommandListener {
 				MainView.getDisplay().setCurrent(new CreateMultipleChoiceQuestionView(survey, parentForm));
 				break;
 			case 2:
-				MainView.getDisplay().setCurrent(new CreateIntegerNumberQuestionView(survey, parentForm));
-				break;
-			case 3:
 				MainView.getDisplay().setCurrent(new CreateFloatNumberQuestionView(survey, parentForm));
 				break;
-			case 4:
+			case 3:
 				MainView.getDisplay().setCurrent(new CreateOpenQuestionView(survey, parentForm));
 				break;
 			}

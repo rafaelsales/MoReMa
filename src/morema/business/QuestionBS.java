@@ -1,8 +1,7 @@
 package morema.business;
 
 import morema.model.FloatNumberQuestion;
-import morema.model.IntegerNumberQuestion;
-import morema.model.MultipleChoice;
+import morema.model.MultipleChoiceQuestion;
 import morema.model.OpenQuestion;
 import morema.model.Question;
 import morema.model.Survey;
@@ -21,14 +20,10 @@ public class QuestionBS {
 		addQuestion(question);
 	}
 
-	public static void addMultipleChoiceQuestion(MultipleChoice question) throws MoremaException {
+	public static void addMultipleChoiceQuestion(MultipleChoiceQuestion question) throws MoremaException {
 		if (question.choices.isEmpty()) {
 			throw new MoremaException(Constantes.MSG_ERRO_DADOS_INVALIDOS);
 		}
-		addQuestion(question);
-	}
-
-	public static void addIntegerNumberQuestion(IntegerNumberQuestion question) throws MoremaException {
 		addQuestion(question);
 	}
 
@@ -38,9 +33,6 @@ public class QuestionBS {
 
 	public static void addOpenQuestion(OpenQuestion question) throws MoremaException {
 		addQuestion(question);
-	}
-
-	public static void removeQuestion(Question question) throws MoremaException {
 	}
 	
 	public static Object[] getQuestions(Survey survey) throws MoremaException {

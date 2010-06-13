@@ -13,7 +13,7 @@ import javax.microedition.lcdui.TextField;
 import morema.business.AnswerBS;
 import morema.business.QuestionBS;
 import morema.model.Answer;
-import morema.model.MultipleChoice;
+import morema.model.MultipleChoiceQuestion;
 import morema.model.Question;
 import morema.model.Survey;
 import morema.util.MoremaException;
@@ -44,15 +44,13 @@ public class AnswerSurveyView extends Form implements CommandListener {
 				fields[i] = choiceGroup;
 			} else if (genericQuestion.typeId.equals(Question.QUESTION_TYPE_MultipleChoiceMultipleAnswer) ||
 					genericQuestion.typeId.equals(Question.QUESTION_TYPE_MultipleChoiceOneAnswer)) {
-				MultipleChoice question = (MultipleChoice) genericQuestion;
+				MultipleChoiceQuestion question = (MultipleChoiceQuestion) genericQuestion;
 				int choiceType = question.multipleAnswer ? ChoiceGroup.MULTIPLE : ChoiceGroup.EXCLUSIVE;
 				ChoiceGroup choiceGroup = new ChoiceGroup(genericQuestion.question, choiceType);
 				for (int j = 0; j < question.choices.size(); j++) {
 					choiceGroup.append((String) question.choices.elementAt(j), null);
 				}
 				fields[i] = choiceGroup;
-			} else if (genericQuestion.typeId.equals(Question.QUESTION_TYPE_IntegerNumber)) {
-				fields[i] = new TextField(genericQuestion.question, null, getWidth(), TextField.NUMERIC);
 			} else if (genericQuestion.typeId.equals(Question.QUESTION_TYPE_FloatNumber)) {
 				fields[i] = new TextField(genericQuestion.question, null, getWidth(), TextField.DECIMAL);
 			} else if (genericQuestion.typeId.equals(Question.QUESTION_TYPE_Open)) {
@@ -66,19 +64,11 @@ public class AnswerSurveyView extends Form implements CommandListener {
 		setCommandListener(this);
 	}
 	
-	private void showNextQuestion() {
-
-	}
-
-	private void answerQuestion() {
-
-	}
-	
 	private void save() {
 		for (int i = 0; i < questions.length; i++) {
-			Question genericQuestion = (Question) questions[i];
+			Question question = (Question) questions[i];
 			Answer answer = null;
-			if (genericQuestion.typeId.equals(Question.QUESTION_TYPE_TrueFalse)) {
+			if (question.typeId.equals(Question.QUESTION_TYPE_TrueFalse)) {
 				ChoiceGroup choiceGroup = (ChoiceGroup) fields[i];
 				Boolean booleanAnswer;
 				if (choiceGroup.getSelectedIndex() == 0) {
@@ -87,8 +77,8 @@ public class AnswerSurveyView extends Form implements CommandListener {
 					booleanAnswer = Boolean.TRUE;
 				}
 				answer = new Answer(booleanAnswer);
-			} else if (genericQuestion.typeId.equals(Question.QUESTION_TYPE_MultipleChoiceMultipleAnswer) ||
-					genericQuestion.typeId.equals(Question.QUESTION_TYPE_MultipleChoiceOneAnswer)) {
+			} else if (question.typeId.equals(Question.QUESTION_TYPE_MultipleChoiceMultipleAnswer) ||
+					question.typeId.equals(Question.QUESTION_TYPE_MultipleChoiceOneAnswer)) {
 				ChoiceGroup choiceGroup = (ChoiceGroup) fields[i];
 				boolean[] choices = new boolean[choiceGroup.size()];
 				int numberSelectedAnswers = choiceGroup.getSelectedFlags(choices);
@@ -99,29 +89,22 @@ public class AnswerSurveyView extends Form implements CommandListener {
 					}
 				}
 				answer = new Answer(idsSelectedChoices);
-			} else if (genericQuestion.typeId.equals(Question.QUESTION_TYPE_IntegerNumber)) {
-				TextField textField = (TextField) fields[i];
-				Integer integerValue = null;
-				if (!Util.isEmpty(textField.getString())) {
-					integerValue = Integer.valueOf(textField.getString());
-				}
-				answer = new Answer(integerValue);
-			} else if (genericQuestion.typeId.equals(Question.QUESTION_TYPE_FloatNumber)) {
+			} else if (question.typeId.equals(Question.QUESTION_TYPE_FloatNumber)) {
 				TextField textField = (TextField) fields[i];
 				Float floatValue = null;
 				if (!Util.isEmpty(textField.getString())) {
 					floatValue = Float.valueOf(textField.getString());
 				}
 				answer = new Answer(floatValue);
-			} else if (genericQuestion.typeId.equals(Question.QUESTION_TYPE_Open)) {
+			} else if (question.typeId.equals(Question.QUESTION_TYPE_Open)) {
 				TextField textField = (TextField) fields[i];
 				answer = new Answer(textField.getString());
 			}
 			answer.surveyId = survey.id;
-			answer.questionId = genericQuestion.id;
-			answer.questionTypeId = genericQuestion.typeId;
+			answer.questionId = question.id;
+			answer.questionTypeId = question.typeId;
 			try {
-				AnswerBS.answer(answer);
+				AnswerBS.save(answer, question);
 			} catch (MoremaException e) {
 				MainView.showAlert(e, null);
 			}

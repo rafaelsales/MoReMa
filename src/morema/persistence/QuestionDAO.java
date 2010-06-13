@@ -4,8 +4,7 @@ import java.util.Vector;
 
 import morema.model.AbstractModel;
 import morema.model.FloatNumberQuestion;
-import morema.model.IntegerNumberQuestion;
-import morema.model.MultipleChoice;
+import morema.model.MultipleChoiceQuestion;
 import morema.model.OpenQuestion;
 import morema.model.Question;
 import morema.model.TrueFalseQuestion;
@@ -36,17 +35,12 @@ public class QuestionDAO extends AbstractDAO {
 				questionTypeId.equals(Question.QUESTION_TYPE_MultipleChoiceOneAnswer)) {
 			fields = genericalDeserialize(data, new Class[] { Integer.class, String.class, Vector.class });
 			boolean multipleAnswer = questionTypeId.equals(Question.QUESTION_TYPE_MultipleChoiceMultipleAnswer) ? true : false; 
-			MultipleChoice question = new MultipleChoice((String) fields[1], (Vector) fields[2], multipleAnswer);
-			question.surveyId = surveyId;
-			return question;
-		} else if (questionTypeId.equals(Question.QUESTION_TYPE_IntegerNumber)) {
-			fields = genericalDeserialize(data, new Class[] { Integer.class, String.class, Integer.class, Integer.class });
-			IntegerNumberQuestion question = new IntegerNumberQuestion((String) fields[1], (Integer) fields[2], (Integer) fields[3]);
+			MultipleChoiceQuestion question = new MultipleChoiceQuestion((String) fields[1], (Vector) fields[2], multipleAnswer);
 			question.surveyId = surveyId;
 			return question;
 		} else if (questionTypeId.equals(Question.QUESTION_TYPE_FloatNumber)) {
-			fields = genericalDeserialize(data, new Class[] { Integer.class, String.class, Float.class, Float.class });
-			FloatNumberQuestion question = new FloatNumberQuestion((String) fields[1], (Float) fields[2], (Float) fields[3]);
+			fields = genericalDeserialize(data, new Class[] { Integer.class, String.class });
+			FloatNumberQuestion question = new FloatNumberQuestion((String) fields[1]);
 			question.surveyId = surveyId;
 			return question;
 		} else if (questionTypeId.equals(Question.QUESTION_TYPE_Open)) {
@@ -63,15 +57,12 @@ public class QuestionDAO extends AbstractDAO {
 		if (model instanceof TrueFalseQuestion) {
 			TrueFalseQuestion question = (TrueFalseQuestion) model;
 			objects = new Object[] { question.typeId, question.question };
-		} else if (model instanceof MultipleChoice) {
-			MultipleChoice question = (MultipleChoice) model;
+		} else if (model instanceof MultipleChoiceQuestion) {
+			MultipleChoiceQuestion question = (MultipleChoiceQuestion) model;
 			objects = new Object[] { question.typeId, question.question, question.choices };
-		} else if (model instanceof IntegerNumberQuestion) {
-			IntegerNumberQuestion question = (IntegerNumberQuestion) model;
-			objects = new Object[] { question.typeId, question.question, question.lowerBound, question.upperBound };
 		} else if (model instanceof FloatNumberQuestion) {
 			FloatNumberQuestion question = (FloatNumberQuestion) model;
-			objects = new Object[] { question.typeId, question.question, question.lowerBound, question.upperBound };
+			objects = new Object[] { question.typeId, question.question };
 		} else if (model instanceof OpenQuestion) {
 			OpenQuestion question = (OpenQuestion) model;
 			objects = new Object[] { question.typeId, question.question };
