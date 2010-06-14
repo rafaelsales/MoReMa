@@ -36,14 +36,14 @@ public class ReportView extends Form implements CommandListener {
 		
 		for (int i = 0; i < questions.length; i++) {
 			Question genericQuestion = (Question) questions[i];
-			String prefixQuestion = "No." + genericQuestion.id.toString() + ":";
-			StringItem questionTitleItem = new StringItem(prefixQuestion, genericQuestion.question);
+			String prefixQuestion = "Questão No." + genericQuestion.id.toString() + ": ";
+			StringItem questionTitleItem = new StringItem(prefixQuestion + genericQuestion.question, null);
 			append(questionTitleItem);
 			if (genericQuestion.typeId.equals(Question.QUESTION_TYPE_TrueFalse)) {
 				TrueFalseQuestion question = (TrueFalseQuestion) genericQuestion;
 				Hashtable trueFalsePercentage = AnswerBS.getPercentageTrueFalseQuestion(question, answers);
-				append(new StringItem(Constantes.QUESTION_LABEL_FALSE + ":", trueFalsePercentage.get(Boolean.TRUE).toString()));
-				append(new StringItem(Constantes.QUESTION_LABEL_TRUE + ":", trueFalsePercentage.get(Boolean.FALSE).toString()));
+				append(new StringItem(Constantes.QUESTION_LABEL_FALSE + ": " + trueFalsePercentage.get(Boolean.TRUE).toString(), null));
+				append(new StringItem(Constantes.QUESTION_LABEL_TRUE + ": " + trueFalsePercentage.get(Boolean.FALSE).toString(), null));
 			} else if (genericQuestion.typeId.equals(Question.QUESTION_TYPE_MultipleChoiceMultipleAnswer) ||
 					genericQuestion.typeId.equals(Question.QUESTION_TYPE_MultipleChoiceOneAnswer)) {
 				MultipleChoiceQuestion question = (MultipleChoiceQuestion) genericQuestion;
@@ -54,7 +54,7 @@ public class ReportView extends Form implements CommandListener {
 			} else if (genericQuestion.typeId.equals(Question.QUESTION_TYPE_FloatNumber)) {
 				FloatNumberQuestion question = (FloatNumberQuestion) genericQuestion;
 				float average = AnswerBS.getAverageFloatNumberQuestion(question, answers);
-				append(new StringItem("Média de " + Constantes.QUESTION_LABEL_TRUE + ":", new Float(average).toString()));
+				append(new StringItem("Média: " + new Float(average).toString(), null));
 			} else if (genericQuestion.typeId.equals(Question.QUESTION_TYPE_Open)) {
 			}
 		}
