@@ -60,7 +60,7 @@ public class MainView extends MIDlet {
 			super("MoReMa", Choice.IMPLICIT);
 
 			append("Criar pesquisa", null);
-			append("Listar pesquisas", null);
+			append("Gerenciar pesquisas", null);
 			addCommand(cmdExit);
 			setCommandListener(this);
 		}
@@ -78,7 +78,7 @@ public class MainView extends MIDlet {
 						getDisplay().setCurrent(new CreateSurveyView(this));
 						break;
 					case 1:
-						getDisplay().setCurrent(new ListSurveyView(this));
+						getDisplay().setCurrent(new ManageSurveyView(this));
 						break;
 					}
 				} catch (MoremaException e) {

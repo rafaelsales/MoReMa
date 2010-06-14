@@ -10,7 +10,7 @@ import morema.business.SurveyBS;
 import morema.model.Survey;
 import morema.util.MoremaException;
 
-public class ListSurveyView extends List implements CommandListener {
+public class ManageSurveyView extends List implements CommandListener {
 
 	private Object[] listSurvey;
 	private final Displayable parentForm;
@@ -20,7 +20,7 @@ public class ListSurveyView extends List implements CommandListener {
 	private final Command cmdReport = new Command("Exibir Relatório", Command.ITEM, 3);
 	private final Command cmdBack = new Command("Voltar", Command.CANCEL, 3);
 	
-	public ListSurveyView(Displayable parentForm) throws MoremaException {
+	public ManageSurveyView(Displayable parentForm) throws MoremaException {
 		super("Pesquisas", Choice.IMPLICIT);
 		this.parentForm = parentForm;
 		
