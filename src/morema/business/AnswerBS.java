@@ -50,12 +50,12 @@ public class AnswerBS {
 		for (int i = 0; i < answers.length; i++) {
 			Answer answer = (Answer) answers[i];
 			if ((answer.questionTypeId.equals(Question.QUESTION_TYPE_MultipleChoiceOneAnswer) || 
-					answer.questionTypeId.equals(Question.QUESTION_TYPE_MultipleChoiceOneAnswer)) &&
+					answer.questionTypeId.equals(Question.QUESTION_TYPE_MultipleChoiceMultipleAnswer)) &&
 					answer.questionId.equals(question.id)) {
 				numAnswers++;
 				Vector selectedChoices = (Vector) answer.answer;
 				for (int j = 0; j < selectedChoices.size(); j++) {
-					countsChoices[((Integer) selectedChoices.elementAt(j)).intValue()]++;
+					countsChoices[Integer.valueOf((String) selectedChoices.elementAt(j)).intValue()]++;
 				}
 			}
 		}
