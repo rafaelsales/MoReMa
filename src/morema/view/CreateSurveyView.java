@@ -29,7 +29,7 @@ public class CreateSurveyView extends Form implements CommandListener {
 		this.parentForm = parentForm;
 		this.survey = survey;
 		
-		tfTitle = new TextField("Titulo", survey.title, getWidth(), TextField.ANY);
+		tfTitle = new TextField("Titulo", survey.title, Constantes.TEXTFIELD_MAX_SIZE, TextField.ANY);
 		append(tfTitle);
 		addCommand(cmdSave);
 		addCommand(cmdAddQuestion);

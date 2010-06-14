@@ -4,6 +4,9 @@ public interface Constantes {
 	
 	String TITULO_APLICACAO = "MoReMa";
 	
+	String QUESTION_LABEL_FALSE = "Não";
+	String QUESTION_LABEL_TRUE = "Sim";
+	
 	String MSG_ERRO_PERSISTENCIA = "Erro ao gravar/consultar os dados.";
 	String MSG_ERRO_PERSISTENCIA_FECHADA = "Unidade de persistencia não está aberta.";
 	String MSG_ERRO_PERSISTENCIA_NAO_ENCONTRADA = "Unidade de persistencia não encontrada.";
@@ -16,4 +19,6 @@ public interface Constantes {
 	String MSG_ERRO_SURVEY_TITULO_EXISTENTE = "Já existe uma pesquisa com este nome.";
 	
 	String MSG_DADOS_CADASTRADOS_SUCESSO = "Dados salvos com sucesso";
+
+	int TEXTFIELD_MAX_SIZE = 200;
 }

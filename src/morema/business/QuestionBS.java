@@ -35,7 +35,7 @@ public class QuestionBS {
 		addQuestion(question);
 	}
 	
-	public static Object[] getQuestions(Survey survey) throws MoremaException {
+	public static Object[] list(Survey survey) throws MoremaException {
 		QuestionDAO questionDAO = new QuestionDAO(survey.id);
 		return questionDAO.getRecords();
 	}

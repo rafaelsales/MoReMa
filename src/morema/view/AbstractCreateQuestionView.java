@@ -7,6 +7,7 @@ import javax.microedition.lcdui.Form;
 import javax.microedition.lcdui.TextField;
 
 import morema.model.Survey;
+import morema.util.Constantes;
 
 public abstract class AbstractCreateQuestionView extends Form implements CommandListener {
 	
@@ -21,7 +22,7 @@ public abstract class AbstractCreateQuestionView extends Form implements Command
 		this.survey = survey;
 		this.parentForm = parentForm;
 		
-		tfTitle = new TextField("Texto da pergunta", null, getWidth(), TextField.ANY);
+		tfTitle = new TextField("Texto da pergunta", null, Constantes.TEXTFIELD_MAX_SIZE, TextField.ANY);
 		
 		append(tfTitle);
 		addCommand(cmdBack);

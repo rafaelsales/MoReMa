@@ -58,7 +58,7 @@ public class CreateMultipleChoiceQuestionView extends AbstractCreateQuestionView
 	 * Adiciona um TextField para escrever o texto de uma opção 
 	 */
 	private void addChoice() {
-		TextField tfChoice = new TextField("Opção " + (listTextFieldsChoices.size() + 1) + "", null, getWidth(), TextField.ANY);
+		TextField tfChoice = new TextField("Opção " + (listTextFieldsChoices.size() + 1) + "", null, Constantes.TEXTFIELD_MAX_SIZE, TextField.ANY);
 		listTextFieldsChoices.addElement(tfChoice);
 		append(tfChoice);
 	}

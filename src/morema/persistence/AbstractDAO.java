@@ -140,7 +140,7 @@ public abstract class AbstractDAO {
 						if (types[currentField].equals(String.class)) {
 							objects[currentField] = stringValue;
 						} else if (types[currentField].equals(Boolean.class)) {
-							if (stringValue.equals("true")) {
+							if (stringValue.equals(Boolean.TRUE.toString())) {
 								objects[currentField] = Boolean.TRUE;
 							} else {
 								objects[currentField] = Boolean.FALSE;
@@ -156,7 +156,7 @@ public abstract class AbstractDAO {
 						} else if (types[currentField].equals(Long.class)) {
 							objects[currentField] = new Long(Long.parseLong(stringValue));
 						} else if (types[currentField].equals(Boolean.class)) {
-							objects[currentField] = stringValue.equals("true") ? Boolean.TRUE : Boolean.FALSE;
+							objects[currentField] = stringValue.equals(Boolean.TRUE.toString()) ? Boolean.TRUE : Boolean.FALSE;
 						} else if (types[currentField].equals(Vector.class)) {
 							objects[currentField] = stringToVector(stringValue);
 						} else {

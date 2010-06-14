@@ -34,28 +34,29 @@ public class AnswerSurveyView extends Form implements CommandListener {
 		this.survey = survey;
 		this.parentForm = parentForm;
 		
-		questions = QuestionBS.getQuestions(survey);
+		questions = QuestionBS.list(survey);
 		fields = new Object[questions.length];
 		for (int i = 0; i < questions.length; i++) {
 			Question genericQuestion = (Question) questions[i];
+			String prefixQuestion = "No." + genericQuestion.id.toString() + ": ";
 			if (genericQuestion.typeId.equals(Question.QUESTION_TYPE_TrueFalse)) {
-				ChoiceGroup choiceGroup = new ChoiceGroup(genericQuestion.question, ChoiceGroup.EXCLUSIVE);
-				choiceGroup.append("Não", null);
-				choiceGroup.append("Sim", null);
+				ChoiceGroup choiceGroup = new ChoiceGroup(prefixQuestion + genericQuestion.question, ChoiceGroup.EXCLUSIVE);
+				choiceGroup.append(Constantes.QUESTION_LABEL_FALSE, null);
+				choiceGroup.append(Constantes.QUESTION_LABEL_TRUE, null);
 				fields[i] = choiceGroup;
 			} else if (genericQuestion.typeId.equals(Question.QUESTION_TYPE_MultipleChoiceMultipleAnswer) ||
 					genericQuestion.typeId.equals(Question.QUESTION_TYPE_MultipleChoiceOneAnswer)) {
 				MultipleChoiceQuestion question = (MultipleChoiceQuestion) genericQuestion;
 				int choiceType = question.multipleAnswer ? ChoiceGroup.MULTIPLE : ChoiceGroup.EXCLUSIVE;
-				ChoiceGroup choiceGroup = new ChoiceGroup(genericQuestion.question, choiceType);
+				ChoiceGroup choiceGroup = new ChoiceGroup(prefixQuestion + genericQuestion.question, choiceType);
 				for (int j = 0; j < question.choices.size(); j++) {
 					choiceGroup.append((String) question.choices.elementAt(j), null);
 				}
 				fields[i] = choiceGroup;
 			} else if (genericQuestion.typeId.equals(Question.QUESTION_TYPE_FloatNumber)) {
-				fields[i] = new TextField(genericQuestion.question, null, getWidth(), TextField.DECIMAL);
+				fields[i] = new TextField(prefixQuestion + genericQuestion.question, null, Constantes.TEXTFIELD_MAX_SIZE, TextField.DECIMAL);
 			} else if (genericQuestion.typeId.equals(Question.QUESTION_TYPE_Open)) {
-				fields[i] = new TextField(genericQuestion.question, null, getWidth(), TextField.ANY);
+				fields[i] = new TextField(prefixQuestion + genericQuestion.question, null, Constantes.TEXTFIELD_MAX_SIZE, TextField.ANY);
 			}
 			append((Item) fields[i]);
 		}
