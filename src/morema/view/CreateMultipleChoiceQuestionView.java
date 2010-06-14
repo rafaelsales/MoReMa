@@ -36,22 +36,17 @@ public class CreateMultipleChoiceQuestionView extends AbstractCreateQuestionView
 		addCommand(cmdRemoveBlankChoices);
 	}
 	
-	protected void addQuestion() {
+	protected void addQuestion() throws MoremaException {
 		removeBlankChoices();
 		
 		Vector listChoices = new Vector(listTextFieldsChoices.size());
 		for (int i = 0; i < listTextFieldsChoices.size(); i++) {
 			listChoices.addElement(((TextField) listTextFieldsChoices.elementAt(i)).getString());
 		}
-		try {
-			boolean multipleAnswer = (cgMultipleAnswer.getSelectedIndex() == 1);
-			MultipleChoiceQuestion question = new MultipleChoiceQuestion(tfTitle.getString(), listChoices, multipleAnswer);
-			question.surveyId = survey.id;
-			QuestionBS.addMultipleChoiceQuestion(question);
-			MainView.showAlert(Constantes.MSG_DADOS_CADASTRADOS_SUCESSO, parentForm, false);
-		} catch (MoremaException e) {
-			MainView.showAlert(e, null);
-		}
+		boolean multipleAnswer = (cgMultipleAnswer.getSelectedIndex() == 1);
+		MultipleChoiceQuestion question = new MultipleChoiceQuestion(tfTitle.getString(), listChoices, multipleAnswer);
+		question.surveyId = survey.id;
+		QuestionBS.addMultipleChoiceQuestion(question);		
 	}
 	
 	/**

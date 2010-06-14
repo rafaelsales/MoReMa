@@ -7,7 +7,9 @@ import javax.microedition.lcdui.Command;
 import javax.microedition.lcdui.CommandListener;
 import javax.microedition.lcdui.Display;
 import javax.microedition.lcdui.Displayable;
+import javax.microedition.lcdui.Form;
 import javax.microedition.lcdui.List;
+import javax.microedition.lcdui.StringItem;
 import javax.microedition.midlet.MIDlet;
 import javax.microedition.midlet.MIDletStateChangeException;
 
@@ -17,6 +19,7 @@ import morema.util.MoremaException;
 public class MainView extends MIDlet {
 
 	private static MIDlet midlet = null;
+	private static MainViewForm mainViewForm;
 
 	public MainView() {
 		midlet = this;
@@ -31,7 +34,12 @@ public class MainView extends MIDlet {
 	}
 
 	protected void startApp() throws MIDletStateChangeException {
-		getDisplay().setCurrent(new MainViewForm());
+		mainViewForm = new MainViewForm();
+		getDisplay().setCurrent(mainViewForm);
+	}
+	
+	public static MainViewForm getMainView() {
+		return mainViewForm;
 	}
 	
 	public static Display getDisplay() {
@@ -50,6 +58,10 @@ public class MainView extends MIDlet {
 		} else {
 			getDisplay().setCurrent(alert, nextForm);
 		}
+	}
+	
+	public static void showConfirmation(String msg, Displayable formYesChoice, Displayable formNoChoice) {
+		getDisplay().setCurrent(new ConfirmationDialog(msg, formYesChoice, formNoChoice));
 	}
 
 	private class MainViewForm extends List implements CommandListener {
@@ -88,4 +100,35 @@ public class MainView extends MIDlet {
 		}
 	}
 
+	private static class ConfirmationDialog extends Form implements CommandListener {
+
+		private Command cmdYes;
+		private Command cmdNo;
+		private StringItem strMessage;
+		private final Displayable formYesChoice;
+		private final Displayable formNoChoice;
+		
+		public ConfirmationDialog(String msg, Displayable formYesChoice, Displayable formNoChoice) {
+			super(Constantes.TITULO_APLICACAO);
+			this.formYesChoice = formYesChoice;
+			this.formNoChoice = formNoChoice;
+			
+			strMessage = new StringItem(msg, null);
+			cmdYes = new Command("Sim", Command.OK, 0);
+			cmdNo = new Command("No", Command.CANCEL, 1);
+			
+			append(strMessage);
+			addCommand(cmdYes);
+			addCommand(cmdNo);
+			setCommandListener(this);
+		}
+
+		public void commandAction(Command c, Displayable d) {
+			if (c == cmdYes) {
+				MainView.getDisplay().setCurrent(formYesChoice);
+			} else if (c == cmdNo) {
+				MainView.getDisplay().setCurrent(formNoChoice);
+			}
+		}
+	}
 }

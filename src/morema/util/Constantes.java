@@ -21,4 +21,6 @@ public interface Constantes {
 	String MSG_DADOS_CADASTRADOS_SUCESSO = "Dados salvos com sucesso";
 
 	int TEXTFIELD_MAX_SIZE = 200;
+
+	String MSG_CADASTRAR_OUTRA_PERGUNTA = "Deseja cadastrar outra pergunta?";
 }
