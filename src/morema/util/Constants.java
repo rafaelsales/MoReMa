@@ -29,7 +29,7 @@ public interface Constants {
 	String MSG_TITLE = "Título";
 	String MSG_QUESTION = "Pergunta";
 	String MSG_ABOUT = "Aplicação desenvolvida por Camila Ferreira, Danusa Ribeiro, Lucas Assunção e Rafael Sales.";
-	String MSG_APPLICATION_NAME = "Mobile Research Manager";
+	String MSG_APPLICATION_NAME = "Mobile Research Management";
 	String MSG_ANSWER = "Resposta";
 	
 	String QUESTION_LABEL_FALSE = "Não";

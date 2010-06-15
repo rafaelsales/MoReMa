@@ -1,0 +1,6 @@
+MoReMa - Mobile Research Management
+
+Este projeto foi desenvolvido utilizando a ferramenta Eclipse Pulsar Galileo juntamente com o Sun Wireless Toolkit 2.5.2 e a Sun JDK 6.
+Com este ambiente configurado, o projeto pode ser importado no Eclipse para ser alterado, testado e distribuído (gerar .jar).
+
+O arquivo de distruição .jar está localizado na pasta "deployed/DefaultColorPhone/MoReMa.jar".
