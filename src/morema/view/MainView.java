@@ -73,6 +73,8 @@ public class MainView extends MIDlet {
 
 			append(Constants.COMMAND_CREATE_SURVEY, null);
 			append(Constants.COMMAND_MANAGE_SURVEY, null);
+			append(Constants.COMMAND_ABOUT, null);
+			
 			addCommand(cmdExit);
 			setCommandListener(this);
 		}
@@ -92,6 +94,8 @@ public class MainView extends MIDlet {
 					case 1:
 						getDisplay().setCurrent(new ManageSurveyView(this));
 						break;
+					case 2:
+						getDisplay().setCurrent(new AboutView(this));
 					}
 				} catch (MoremaException e) {
 					MainView.showAlert(e, null);

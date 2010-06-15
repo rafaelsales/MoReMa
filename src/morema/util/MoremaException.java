@@ -27,6 +27,8 @@ public class MoremaException extends Exception {
 			throw new MoremaException(Constants.MSG_ERROR_PERSISTENCE_ITEM_NOT_FOUND, e);
 		} else if (e instanceof RecordStoreException) {
 			throw new MoremaException(Constants.MSG_ERROR_PERSISTENCE, e);
+		} else if (e instanceof MoremaException) {
+			throw (MoremaException) e;
 		} else {
 			throw new MoremaException(Constants.MSG_ERROR_UNEXPECTED, e);
 		}

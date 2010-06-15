@@ -36,6 +36,7 @@ public abstract class AbstractDAO {
 	 */
 	public AbstractModel getRecordGeneric(int id) throws MoremaException {
 		try {
+			openThisRecordStore();
 			AbstractModel model = deserialize(recordStore.getRecord(id));
 			model.id = new Integer(id);
 			return model;
@@ -53,6 +54,7 @@ public abstract class AbstractDAO {
 	public Object[] getRecords() throws MoremaException {
 		Vector records = null;
 		try {
+			openThisRecordStore();
 			RecordEnumeration result = recordStore.enumerateRecords(null, null, false);
 			records = new Vector(result.numRecords());
 			while (result.hasNextElement()) {
@@ -70,6 +72,7 @@ public abstract class AbstractDAO {
 	public AbstractModel saveRecord(AbstractModel model) throws MoremaException {
 		byte[] data = serialize(model);
 		try {
+			openThisRecordStore();
 			if (model.id == null) {
 				model.id = new Integer(recordStore.addRecord(data, 0, data.length));
 			} else {
@@ -85,6 +88,7 @@ public abstract class AbstractDAO {
 	
 	public void removeRecord(int id) throws MoremaException {
 		try {
+			openThisRecordStore();
 			recordStore.deleteRecord(id);
 		} catch (Exception e) {
 			MoremaException.throwAsMoremaException(e);
@@ -93,8 +97,10 @@ public abstract class AbstractDAO {
 	
 	public void removeRecordStore() throws MoremaException {
 		try {
+			openThisRecordStore();
 			recordStore.closeRecordStore();
 			RecordStore.deleteRecordStore(recordStoreName);
+			recordStore = null;
 		} catch (Exception e) {
 			MoremaException.throwAsMoremaException(e);
 		}
@@ -233,6 +239,10 @@ public abstract class AbstractDAO {
 			}
 		}
 		return vector;
+	}
+	
+	private void openThisRecordStore() throws Exception {
+		openRecordStore(recordStoreName);
 	}
 	
 	/**
