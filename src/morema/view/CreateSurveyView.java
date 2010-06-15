@@ -8,7 +8,7 @@ import javax.microedition.lcdui.TextField;
 
 import morema.business.SurveyBS;
 import morema.model.Survey;
-import morema.util.Constantes;
+import morema.util.Constants;
 import morema.util.MoremaException;
 
 public class CreateSurveyView extends Form implements CommandListener {
@@ -16,19 +16,19 @@ public class CreateSurveyView extends Form implements CommandListener {
 	private final Displayable parentForm;
 	private final TextField tfTitle;
 	private final Survey survey;
-	private final Command cmdSave = new Command("Salvar", Command.ITEM, 0);
-	private final Command cmdBack = new Command("Voltar", Command.CANCEL, 1);
+	private final Command cmdSave = new Command(Constants.COMMAND_SAVE, Command.ITEM, 0);
+	private final Command cmdBack = new Command(Constants.COMMAND_BACK, Command.CANCEL, 1);
 	
 	public CreateSurveyView(Displayable parentForm) {
 		this(new Survey(), parentForm);
 	}
 	
 	public CreateSurveyView(Survey survey, Displayable parentForm) {
-		super("Criar pesquisa");
+		super(Constants.COMMAND_CREATE_SURVEY);
 		this.parentForm = parentForm;
 		this.survey = survey;
 		
-		tfTitle = new TextField("Titulo", survey.title, Constantes.TEXTFIELD_MAX_SIZE, TextField.ANY);
+		tfTitle = new TextField(Constants.MSG_TITLE, survey.title, Constants.TEXTFIELD_MAX_SIZE, TextField.ANY);
 		append(tfTitle);
 		addCommand(cmdSave);
 		addCommand(cmdBack);
@@ -39,7 +39,7 @@ public class CreateSurveyView extends Form implements CommandListener {
 		try {
 			survey.title = tfTitle.getString();
 			SurveyBS.save(survey);
-			MainView.showAlert(Constantes.MSG_DADOS_CADASTRADOS_SUCESSO, new PrepareCreateQuestionView(survey, this), false);
+			MainView.showAlert(Constants.MSG_DATA_SAVED_SUCCESSFULLY + "\n" + Constants.MSG_CREATE_QUESTION, new PrepareCreateQuestionView(survey, this), false);
 		} catch (MoremaException e) {
 			MainView.showAlert(e, null);
 		}

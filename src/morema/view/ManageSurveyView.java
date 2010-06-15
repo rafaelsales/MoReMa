@@ -8,31 +8,31 @@ import javax.microedition.lcdui.List;
 
 import morema.business.SurveyBS;
 import morema.model.Survey;
+import morema.util.Constants;
 import morema.util.MoremaException;
 
 public class ManageSurveyView extends List implements CommandListener {
 
 	private Object[] listSurvey;
-	private final Displayable parentForm;
-	private final Command cmdAnswer = new Command("Responder", Command.OK, 0);
-	private final Command cmdUpdate = new Command("Alterar", Command.ITEM, 1);
-	private final Command cmdRemove = new Command("Remover", Command.ITEM, 2);
-	private final Command cmdReport = new Command("Exibir Relatório", Command.ITEM, 3);
-	private final Command cmdBack = new Command("Voltar", Command.CANCEL, 3);
+	protected final Displayable parentForm;
+	private final Command cmdAnswer = new Command(Constants.COMMAND_ANSWER, Command.OK, 0);
+	private final Command cmdRemove = new Command(Constants.COMMAND_REMOVE, Command.ITEM, 1);
+	private final Command cmdReport = new Command(Constants.COMMAND_SHOW_REPORT, Command.ITEM, 2);
+	private final Command cmdBack = new Command(Constants.COMMAND_BACK, Command.CANCEL, 3);
 	
 	public ManageSurveyView(Displayable parentForm) throws MoremaException {
-		super("Pesquisas", Choice.IMPLICIT);
+		super(Constants.COMMAND_MANAGE_SURVEY, Choice.IMPLICIT);
 		this.parentForm = parentForm;
 		
 		list();
 		
 		addCommand(cmdAnswer);
-		addCommand(cmdUpdate);
 		addCommand(cmdRemove);
 		addCommand(cmdReport);
 		addCommand(cmdBack);
 		setCommandListener(this);
 	}
+	
 
 	public void list() throws MoremaException {
 		listSurvey = SurveyBS.list();
@@ -43,17 +43,7 @@ public class ManageSurveyView extends List implements CommandListener {
 
 	public void remove(Survey survey) {
 		if (survey != null) {
-			try {
-				SurveyBS.remove(survey);
-			} catch (MoremaException e) {
-				MainView.showAlert(e, null);
-			}
-		}
-	}
-
-	public void select(Survey survey) {
-		if (survey != null) {
-			MainView.getDisplay().setCurrent(new CreateSurveyView(survey, this));
+			MainView.getDisplay().setCurrent(new RemoveSurveyView(survey, this));
 		}
 	}
 	
@@ -84,8 +74,6 @@ public class ManageSurveyView extends List implements CommandListener {
 		}
 		if (c == cmdAnswer) {
 			answer(survey);
-		} else if (c == cmdUpdate) {
-			select(survey);
 		} else if (c == cmdRemove) {
 			remove(survey);
 		} else if (c == cmdReport) {

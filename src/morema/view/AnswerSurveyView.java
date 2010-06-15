@@ -16,7 +16,7 @@ import morema.model.Answer;
 import morema.model.MultipleChoiceQuestion;
 import morema.model.Question;
 import morema.model.Survey;
-import morema.util.Constantes;
+import morema.util.Constants;
 import morema.util.MoremaException;
 import morema.util.Util;
 
@@ -24,13 +24,13 @@ public class AnswerSurveyView extends Form implements CommandListener {
 
 	private final Survey survey;
 	private final Displayable parentForm;
-	private final Command cmdSave = new Command("Salvar", Command.OK, 0);
-	private final Command cmdBack = new Command("Voltar", Command.CANCEL, 1);
+	private final Command cmdSave = new Command(Constants.COMMAND_SAVE, Command.OK, 0);
+	private final Command cmdBack = new Command(Constants.COMMAND_BACK, Command.CANCEL, 1);
 	private final Object[] questions;
 	private final Object[] fields;
 
 	public AnswerSurveyView(Survey survey, Displayable parentForm) throws MoremaException {
-		super(survey.title);
+		super(Constants.COMMAND_ANSWER + " - " + survey.title);
 		this.survey = survey;
 		this.parentForm = parentForm;
 		
@@ -41,8 +41,8 @@ public class AnswerSurveyView extends Form implements CommandListener {
 			String prefixQuestion = "No." + genericQuestion.id.toString() + ": ";
 			if (genericQuestion.typeId.equals(Question.QUESTION_TYPE_TrueFalse)) {
 				ChoiceGroup choiceGroup = new ChoiceGroup(prefixQuestion + genericQuestion.question, ChoiceGroup.EXCLUSIVE);
-				choiceGroup.append(Constantes.QUESTION_LABEL_FALSE, null);
-				choiceGroup.append(Constantes.QUESTION_LABEL_TRUE, null);
+				choiceGroup.append(Constants.QUESTION_LABEL_FALSE, null);
+				choiceGroup.append(Constants.QUESTION_LABEL_TRUE, null);
 				fields[i] = choiceGroup;
 			} else if (genericQuestion.typeId.equals(Question.QUESTION_TYPE_MultipleChoiceMultipleAnswer) ||
 					genericQuestion.typeId.equals(Question.QUESTION_TYPE_MultipleChoiceOneAnswer)) {
@@ -54,9 +54,9 @@ public class AnswerSurveyView extends Form implements CommandListener {
 				}
 				fields[i] = choiceGroup;
 			} else if (genericQuestion.typeId.equals(Question.QUESTION_TYPE_FloatNumber)) {
-				fields[i] = new TextField(prefixQuestion + genericQuestion.question, null, Constantes.TEXTFIELD_MAX_SIZE, TextField.DECIMAL);
+				fields[i] = new TextField(prefixQuestion + genericQuestion.question, null, Constants.TEXTFIELD_MAX_SIZE, TextField.DECIMAL);
 			} else if (genericQuestion.typeId.equals(Question.QUESTION_TYPE_Open)) {
-				fields[i] = new TextField(prefixQuestion + genericQuestion.question, null, Constantes.TEXTFIELD_MAX_SIZE, TextField.ANY);
+				fields[i] = new TextField(prefixQuestion + genericQuestion.question, null, Constants.TEXTFIELD_MAX_SIZE, TextField.ANY);
 			}
 			append((Item) fields[i]);
 		}
@@ -108,7 +108,7 @@ public class AnswerSurveyView extends Form implements CommandListener {
 				answer.questionTypeId = question.typeId;
 				AnswerBS.save(answer, question);
 			}
-			MainView.showAlert(Constantes.MSG_DADOS_CADASTRADOS_SUCESSO, parentForm, false);
+			MainView.showAlert(Constants.MSG_DATA_SAVED_SUCCESSFULLY, parentForm, false);
 		} catch (MoremaException e) {
 			MainView.showAlert(e, null);
 		}

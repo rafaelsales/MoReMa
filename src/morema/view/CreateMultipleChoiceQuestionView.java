@@ -10,14 +10,14 @@ import javax.microedition.lcdui.TextField;
 import morema.business.QuestionBS;
 import morema.model.MultipleChoiceQuestion;
 import morema.model.Survey;
-import morema.util.Constantes;
+import morema.util.Constants;
 import morema.util.MoremaException;
 import morema.util.Util;
 
 public class CreateMultipleChoiceQuestionView extends AbstractCreateQuestionView {
 	
-	private final Command cmdAddChoice = new Command("Adicionar opção", Command.ITEM, 2);
-	private final Command cmdRemoveBlankChoices = new Command("Remover opções vazias", Command.ITEM, 3);
+	private final Command cmdAddChoice = new Command(Constants.COMMAND_QUESTION_MULTIPLE_CHOICE_ADD_CHOICE, Command.ITEM, 2);
+	private final Command cmdRemoveBlankChoices = new Command(Constants.COMMAND_QUESTION_MULTIPLE_CHOICE_REMOVE_BLANK_CHOICES, Command.ITEM, 3);
 	private final Vector listTextFieldsChoices = new Vector();
 	private final ChoiceGroup cgMultipleAnswer;
 	
@@ -25,8 +25,8 @@ public class CreateMultipleChoiceQuestionView extends AbstractCreateQuestionView
 		super(survey, parentForm);
 		
 		cgMultipleAnswer = new ChoiceGroup("Multipla resposta", ChoiceGroup.EXCLUSIVE);
-		cgMultipleAnswer.append("Não", null);
-		cgMultipleAnswer.append("Sim", null);
+		cgMultipleAnswer.append(Constants.MSG_NO, null);
+		cgMultipleAnswer.append(Constants.MSG_YES, null);
 		append(cgMultipleAnswer);
 		
 		//Inicialmente adiciona duas opções:
@@ -53,7 +53,7 @@ public class CreateMultipleChoiceQuestionView extends AbstractCreateQuestionView
 	 * Adiciona um TextField para escrever o texto de uma opção 
 	 */
 	private void addChoice() {
-		TextField tfChoice = new TextField("Opção " + (listTextFieldsChoices.size() + 1) + "", null, Constantes.TEXTFIELD_MAX_SIZE, TextField.ANY);
+		TextField tfChoice = new TextField(Constants.QUESTION_LABEL_CHOICE + " " + (listTextFieldsChoices.size() + 1) + "", null, Constants.TEXTFIELD_MAX_SIZE, TextField.ANY);
 		listTextFieldsChoices.addElement(tfChoice);
 		append(tfChoice);
 	}

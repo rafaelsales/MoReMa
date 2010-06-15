@@ -7,7 +7,7 @@ import javax.microedition.lcdui.Form;
 import javax.microedition.lcdui.TextField;
 
 import morema.model.Survey;
-import morema.util.Constantes;
+import morema.util.Constants;
 import morema.util.MoremaException;
 
 public abstract class AbstractCreateQuestionView extends Form implements CommandListener {
@@ -15,18 +15,18 @@ public abstract class AbstractCreateQuestionView extends Form implements Command
 	protected final Survey survey;
 	protected final Displayable parentForm;
 	protected final TextField tfTitle;
-	protected final Command cmdSave = new Command("Salvar", Command.ITEM, 0);
-	protected final Command cmdCancel = new Command("Cancelar", Command.CANCEL, 1);
+	protected final Command cmdSave = new Command(Constants.COMMAND_SAVE, Command.ITEM, 0);
+	protected final Command cmdBack = new Command(Constants.COMMAND_BACK, Command.CANCEL, 1);
 	
 	public AbstractCreateQuestionView(Survey survey, Displayable parentForm) {
-		super("Adicionar pergunta");
+		super(Constants.COMMAND_ADD_QUESTION);
 		this.survey = survey;
 		this.parentForm = parentForm;
 		
-		tfTitle = new TextField("Texto da pergunta", null, Constantes.TEXTFIELD_MAX_SIZE, TextField.ANY);
+		tfTitle = new TextField(Constants.MSG_QUESTION_TEXT, null, Constants.TEXTFIELD_MAX_SIZE, TextField.ANY);
 		
 		append(tfTitle);
-		addCommand(cmdCancel);
+		addCommand(cmdBack);
 		addCommand(cmdSave);
 		setCommandListener(this);
 	}
@@ -37,12 +37,11 @@ public abstract class AbstractCreateQuestionView extends Form implements Command
 		if (c == cmdSave) {
 			try {
 				addQuestion();
-				MainView.showAlert(Constantes.MSG_DADOS_CADASTRADOS_SUCESSO, null, false);
-				MainView.showConfirmation(Constantes.MSG_CADASTRAR_OUTRA_PERGUNTA, new PrepareCreateQuestionView(survey, MainView.getMainView()), MainView.getMainView());
+				MainView.showConfirmation(Constants.MSG_DATA_SAVED_SUCCESSFULLY + "\n" + Constants.MSG_CREATE_ANOTHER_QUESTION, new PrepareCreateQuestionView(survey, new CreateSurveyView(survey, MainView.getMainView())), MainView.getMainView());
 			} catch (MoremaException e) {
 				MainView.showAlert(e, this);
 			}
-		} else if (c == cmdCancel) {
+		} else if (c == cmdBack) {
 			MainView.getDisplay().setCurrent(parentForm);
 		}
 	}
