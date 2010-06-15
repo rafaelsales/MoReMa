@@ -13,22 +13,22 @@ public class MoremaException extends Exception {
 	}
 
 	public MoremaException(String msg, Throwable exception) {
-		super(msg + " - Detalhes: " + exception.toString());
+		super(msg + " - " + Constants.MSG_DETAILS + ": " + exception.toString());
 	}
 
 	public static void throwAsMoremaException(Exception e) throws MoremaException {
 		if (e instanceof RecordStoreFullException) {
-			throw new MoremaException(Constantes.MSG_ERRO_MEMORIA_CHEIA, e);
+			throw new MoremaException(Constants.MSG_ERROR_FULL_MEMORY, e);
 		} else if (e instanceof RecordStoreNotFoundException) {
-			throw new MoremaException(Constantes.MSG_ERRO_PERSISTENCIA_NAO_ENCONTRADA, e);
+			throw new MoremaException(Constants.MSG_ERROR_PERSISTENCE_NOT_FOUND, e);
 		} else if (e instanceof RecordStoreNotOpenException) {
-			throw new MoremaException(Constantes.MSG_ERRO_PERSISTENCIA_NAO_ENCONTRADA, e);
+			throw new MoremaException(Constants.MSG_ERROR_PERSISTENCE_NOT_FOUND, e);
 		} else if (e instanceof InvalidRecordIDException) {
-			throw new MoremaException(Constantes.MSG_ERRO_PERSISTENCIA_ITEM_NAO_ENCONTRADO, e);
+			throw new MoremaException(Constants.MSG_ERROR_PERSISTENCE_ITEM_NOT_FOUND, e);
 		} else if (e instanceof RecordStoreException) {
-			throw new MoremaException(Constantes.MSG_ERRO_PERSISTENCIA, e);
+			throw new MoremaException(Constants.MSG_ERROR_PERSISTENCE, e);
 		} else {
-			throw new MoremaException(Constantes.MSG_ERRO_INESPERADO, e);
+			throw new MoremaException(Constants.MSG_ERROR_UNEXPECTED, e);
 		}
 	}
 }

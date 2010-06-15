@@ -13,7 +13,7 @@ import javax.microedition.lcdui.StringItem;
 import javax.microedition.midlet.MIDlet;
 import javax.microedition.midlet.MIDletStateChangeException;
 
-import morema.util.Constantes;
+import morema.util.Constants;
 import morema.util.MoremaException;
 
 public class MainView extends MIDlet {
@@ -52,7 +52,7 @@ public class MainView extends MIDlet {
 	}
 	
 	public static void showAlert(String msg, Displayable nextForm, boolean isError) {
-		Alert alert = new Alert(Constantes.TITULO_APLICACAO, msg, null, (isError ? AlertType.ERROR : AlertType.INFO));
+		Alert alert = new Alert(Constants.APPLICATION_TITLE, msg, null, (isError ? AlertType.ERROR : AlertType.INFO));
 		if (nextForm == null) {
 			getDisplay().setCurrent(alert);
 		} else {
@@ -60,19 +60,19 @@ public class MainView extends MIDlet {
 		}
 	}
 	
-	public static void showConfirmation(String msg, Displayable formYesChoice, Displayable formNoChoice) {
-		getDisplay().setCurrent(new ConfirmationDialog(msg, formYesChoice, formNoChoice));
+	public static void showConfirmation(String msg, Displayable nextFormYesChoice, Displayable nextFormNoChoice) {
+		getDisplay().setCurrent(new ConfirmationDialog(msg, nextFormYesChoice, nextFormNoChoice));
 	}
 
 	private class MainViewForm extends List implements CommandListener {
 
-		private final Command cmdExit = new Command("Sair", Command.EXIT, 0);
+		private final Command cmdExit = new Command(Constants.COMMAND_EXIT, Command.EXIT, 0);
 		
 		public MainViewForm() {
-			super("MoReMa", Choice.IMPLICIT);
+			super(Constants.APPLICATION_TITLE, Choice.IMPLICIT);
 
-			append("Criar pesquisa", null);
-			append("Gerenciar pesquisas", null);
+			append(Constants.COMMAND_CREATE_SURVEY, null);
+			append(Constants.COMMAND_MANAGE_SURVEY, null);
 			addCommand(cmdExit);
 			setCommandListener(this);
 		}
@@ -108,14 +108,14 @@ public class MainView extends MIDlet {
 		private final Displayable formYesChoice;
 		private final Displayable formNoChoice;
 		
-		public ConfirmationDialog(String msg, Displayable formYesChoice, Displayable formNoChoice) {
-			super(Constantes.TITULO_APLICACAO);
-			this.formYesChoice = formYesChoice;
-			this.formNoChoice = formNoChoice;
+		public ConfirmationDialog(String msg, Displayable nextFormYesChoice, Displayable nextFormNoChoice) {
+			super(Constants.APPLICATION_TITLE);
+			this.formYesChoice = nextFormYesChoice;
+			this.formNoChoice = nextFormNoChoice;
 			
 			strMessage = new StringItem(msg, null);
-			cmdYes = new Command("Sim", Command.OK, 0);
-			cmdNo = new Command("No", Command.CANCEL, 1);
+			cmdYes = new Command(Constants.MSG_YES, Command.OK, 0);
+			cmdNo = new Command(Constants.MSG_NO, Command.CANCEL, 1);
 			
 			append(strMessage);
 			addCommand(cmdYes);

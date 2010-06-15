@@ -15,14 +15,14 @@ import morema.model.MultipleChoiceQuestion;
 import morema.model.Question;
 import morema.model.Survey;
 import morema.model.TrueFalseQuestion;
-import morema.util.Constantes;
+import morema.util.Constants;
 import morema.util.MoremaException;
 
 public class ReportView extends Form implements CommandListener {
 
 	private final Survey survey;
 	private final Displayable parentForm;
-	private final Command cmdBack = new Command("Voltar", Command.CANCEL, 0);
+	private final Command cmdBack = new Command(Constants.COMMAND_BACK, Command.CANCEL, 0);
 	private final Object[] questions;
 	private final Object[] answers;
 
@@ -36,14 +36,14 @@ public class ReportView extends Form implements CommandListener {
 		
 		for (int i = 0; i < questions.length; i++) {
 			Question genericQuestion = (Question) questions[i];
-			String prefixQuestion = "Questão No." + genericQuestion.id.toString() + ": ";
+			String prefixQuestion = Constants.MSG_QUESTION + " No." + genericQuestion.id.toString() + ": ";
 			StringItem questionTitleItem = new StringItem(prefixQuestion + genericQuestion.question, null);
 			append(questionTitleItem);
 			if (genericQuestion.typeId.equals(Question.QUESTION_TYPE_TrueFalse)) {
 				TrueFalseQuestion question = (TrueFalseQuestion) genericQuestion;
 				Hashtable trueFalsePercentage = AnswerBS.getPercentageTrueFalseQuestion(question, answers);
-				append(new StringItem(Constantes.QUESTION_LABEL_FALSE + ": " + trueFalsePercentage.get(Boolean.TRUE).toString(), null));
-				append(new StringItem(Constantes.QUESTION_LABEL_TRUE + ": " + trueFalsePercentage.get(Boolean.FALSE).toString(), null));
+				append(new StringItem(Constants.QUESTION_LABEL_FALSE + ": " + trueFalsePercentage.get(Boolean.FALSE).toString(), null));
+				append(new StringItem(Constants.QUESTION_LABEL_TRUE + ": " + trueFalsePercentage.get(Boolean.TRUE).toString(), null));
 			} else if (genericQuestion.typeId.equals(Question.QUESTION_TYPE_MultipleChoiceMultipleAnswer) ||
 					genericQuestion.typeId.equals(Question.QUESTION_TYPE_MultipleChoiceOneAnswer)) {
 				MultipleChoiceQuestion question = (MultipleChoiceQuestion) genericQuestion;
@@ -54,7 +54,7 @@ public class ReportView extends Form implements CommandListener {
 			} else if (genericQuestion.typeId.equals(Question.QUESTION_TYPE_FloatNumber)) {
 				FloatNumberQuestion question = (FloatNumberQuestion) genericQuestion;
 				float average = AnswerBS.getAverageFloatNumberQuestion(question, answers);
-				append(new StringItem("Média: " + new Float(average).toString(), null));
+				append(new StringItem(Constants.MSG_AVERAGE + ": " + new Float(average).toString(), null));
 			} else if (genericQuestion.typeId.equals(Question.QUESTION_TYPE_Open)) {
 			}
 		}

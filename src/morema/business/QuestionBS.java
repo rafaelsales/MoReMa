@@ -7,7 +7,7 @@ import morema.model.Question;
 import morema.model.Survey;
 import morema.model.TrueFalseQuestion;
 import morema.persistence.QuestionDAO;
-import morema.util.Constantes;
+import morema.util.Constants;
 import morema.util.MoremaException;
 import morema.util.Util;
 
@@ -22,7 +22,7 @@ public class QuestionBS {
 
 	public static void addMultipleChoiceQuestion(MultipleChoiceQuestion question) throws MoremaException {
 		if (question.choices.isEmpty()) {
-			throw new MoremaException(Constantes.MSG_ERRO_DADOS_INVALIDOS);
+			throw new MoremaException(Constants.MSG_ERROR_INVALID_DATA);
 		}
 		addQuestion(question);
 	}
@@ -42,7 +42,7 @@ public class QuestionBS {
 	
 	private static void addQuestion(Question question) throws MoremaException {
 		if (Util.isEmpty(question.question) || question.typeId == null) {
-			throw new MoremaException(Constantes.MSG_ERRO_DADOS_INVALIDOS);
+			throw new MoremaException(Constants.MSG_ERROR_INVALID_DATA);
 		}
 		QuestionDAO dao = new QuestionDAO(question.surveyId);
 		dao.saveRecord(question);

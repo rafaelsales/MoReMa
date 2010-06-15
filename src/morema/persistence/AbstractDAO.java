@@ -82,6 +82,23 @@ public abstract class AbstractDAO {
 			return null;
 		}
 	}
+	
+	public void removeRecord(int id) throws MoremaException {
+		try {
+			recordStore.deleteRecord(id);
+		} catch (Exception e) {
+			MoremaException.throwAsMoremaException(e);
+		}
+	}
+	
+	public void removeRecordStore() throws MoremaException {
+		try {
+			recordStore.closeRecordStore();
+			RecordStore.deleteRecordStore(recordStoreName);
+		} catch (Exception e) {
+			MoremaException.throwAsMoremaException(e);
+		}
+	}
 
 	protected abstract byte[] serialize(AbstractModel model);
 
@@ -245,16 +262,5 @@ public abstract class AbstractDAO {
 				MoremaException.throwAsMoremaException(e);
 			}
 		}
-	}
-	
-	public static void main(String[] args) {
-		Float a = new Float(3.15f);
-		String b = "Hello guys!";
-		Boolean c = Boolean.FALSE;
-		Character d = new Character('k');
-		Integer e = new Integer(210);
-		byte[] genericalSerialized = genericalSerialize(new Object[] { a, b, c, d, e });
-		System.out.println(new String(genericalSerialized));
-		System.out.println(genericalDeserialize(genericalSerialized, new Class[] { Float.class, String.class, Boolean.class, Character.class, Integer.class }));
 	}
 }
