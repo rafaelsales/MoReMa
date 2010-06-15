@@ -52,7 +52,7 @@ public class MainView extends MIDlet {
 	}
 	
 	public static void showAlert(String msg, Displayable nextForm, boolean isError) {
-		Alert alert = new Alert(Constants.APPLICATION_TITLE, msg, null, (isError ? AlertType.ERROR : AlertType.INFO));
+		Alert alert = new Alert(Constants.APPLICATION_TITLE, msg, null, (isError ? AlertType.ERROR : AlertType.CONFIRMATION));
 		if (nextForm == null) {
 			getDisplay().setCurrent(alert);
 		} else {
@@ -118,6 +118,7 @@ public class MainView extends MIDlet {
 			this.formNoChoice = nextFormNoChoice;
 			
 			strMessage = new StringItem(msg, null);
+			strMessage.setLayout(StringItem.LAYOUT_NEWLINE_AFTER);
 			cmdYes = new Command(Constants.MSG_YES, Command.OK, 0);
 			cmdNo = new Command(Constants.MSG_NO, Command.CANCEL, 1);
 			

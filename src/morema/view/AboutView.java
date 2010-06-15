@@ -17,8 +17,14 @@ public class AboutView extends Form implements CommandListener {
 		super(Constants.COMMAND_ABOUT + " " + Constants.APPLICATION_TITLE);
 		this.parentForm = parentForm;
 		
-		append(new StringItem(Constants.MSG_APPLICATION_NAME, null));
-		append(new StringItem(Constants.MSG_ABOUT, null));
+		StringItem strItem = new StringItem(Constants.MSG_APPLICATION_NAME, null);
+		strItem.setLayout(StringItem.LAYOUT_NEWLINE_AFTER);
+		append(strItem);
+		
+		strItem = new StringItem(Constants.MSG_ABOUT, null);
+		strItem.setLayout(StringItem.LAYOUT_NEWLINE_AFTER);
+		append(strItem);
+		
 		addCommand(cmdBack);
 		setCommandListener(this);
 	}

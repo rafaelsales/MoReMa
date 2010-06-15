@@ -23,14 +23,17 @@ public class AnswersOpenQuestionView extends Form implements CommandListener {
 		this.parentForm = parentForm;
 		
 		String prefixQuestion = Constants.MSG_QUESTION + " No." + question.id.toString() + ": ";
-		StringItem questionTitleItem = new StringItem(prefixQuestion + question.question, null);
-		append(questionTitleItem);
+		StringItem strItem = new StringItem(prefixQuestion + question.question, null);
+		strItem.setLayout(StringItem.LAYOUT_NEWLINE_AFTER);
+		append(strItem);
 		
 		try {
 			Object[] answers = AnswerBS.listByQuestion(question);
 			for (int i = 0; i < answers.length; i++) {
 				String answer = (String) ((Answer) answers[i]).answer;
-				append(new StringItem("No." + i + ": ", answer));
+				strItem = new StringItem("No." + i + ": ", answer);
+				strItem.setLayout(StringItem.LAYOUT_NEWLINE_AFTER);
+				append(strItem);
 			}
 		} catch (MoremaException e) {
 			MainView.getDisplay().setCurrent(parentForm);

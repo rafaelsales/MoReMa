@@ -25,6 +25,7 @@ public class RemoveSurveyView extends Form implements CommandListener {
 		this.parentForm = parentForm;
 		
 		strMessage = new StringItem(Constants.MSG_CONFIRM_REMOVE_SURVEY, null);
+		strMessage.setLayout(StringItem.LAYOUT_NEWLINE_AFTER);
 		cmdYes = new Command(Constants.MSG_YES, Command.OK, 0);
 		cmdNo = new Command(Constants.MSG_NO, Command.CANCEL, 1);
 		

@@ -45,35 +45,46 @@ public class ReportView extends Form implements CommandListener {
 			}
 			
 			String prefixQuestion = Constants.MSG_QUESTION + " No." + genericQuestion.id.toString() + ": ";
-			StringItem questionTitleItem = new StringItem(prefixQuestion + genericQuestion.question, null);
-			append(questionTitleItem);
+			StringItem strItem = new StringItem(prefixQuestion + genericQuestion.question, null);
+			strItem.setLayout(StringItem.LAYOUT_NEWLINE_AFTER);
+			append(strItem);
+			
 			if (genericQuestion.typeId.equals(Question.QUESTION_TYPE_TrueFalse)) {
 				TrueFalseQuestion question = (TrueFalseQuestion) genericQuestion;
 				Hashtable trueFalsePercentage = AnswerBS.getPercentageTrueFalseQuestion(question, answers);
-				append(new StringItem(Constants.QUESTION_LABEL_FALSE + ": " + trueFalsePercentage.get(Boolean.FALSE).toString(), null));
-				append(new StringItem(Constants.QUESTION_LABEL_TRUE + ": " + trueFalsePercentage.get(Boolean.TRUE).toString(), null));
+				strItem = new StringItem(Constants.QUESTION_LABEL_FALSE + ": " + trueFalsePercentage.get(Boolean.FALSE).toString(), null);
+				strItem.setLayout(StringItem.LAYOUT_NEWLINE_AFTER);
+				append(strItem);
+				strItem = new StringItem(Constants.QUESTION_LABEL_TRUE + ": " + trueFalsePercentage.get(Boolean.TRUE).toString(), null);
+				strItem.setLayout(StringItem.LAYOUT_NEWLINE_AFTER);
+				append(strItem);
 			} else if (genericQuestion.typeId.equals(Question.QUESTION_TYPE_MultipleChoiceMultipleAnswer) ||
 					genericQuestion.typeId.equals(Question.QUESTION_TYPE_MultipleChoiceOneAnswer)) {
 				MultipleChoiceQuestion question = (MultipleChoiceQuestion) genericQuestion;
 				Hashtable multipleChoicePercentage = AnswerBS.getPercentageMultipleChoiceQuestion(question, answers);
 				for (int j = 0; j < question.choices.size(); j++) {
-					append(new StringItem((String) question.choices.elementAt(j) + ":", multipleChoicePercentage.get(new Integer(j)).toString()));
+					strItem = new StringItem((String) question.choices.elementAt(j) + ":", multipleChoicePercentage.get(new Integer(j)).toString());
+					strItem.setLayout(StringItem.LAYOUT_NEWLINE_AFTER);
+					append(strItem);
 				}
 			} else if (genericQuestion.typeId.equals(Question.QUESTION_TYPE_FloatNumber)) {
 				FloatNumberQuestion question = (FloatNumberQuestion) genericQuestion;
 				float average = AnswerBS.getAverageFloatNumberQuestion(question, answers);
-				append(new StringItem(Constants.MSG_AVERAGE + ": " + new Float(average).toString(), null));
+				strItem = new StringItem(Constants.MSG_AVERAGE + ": " + new Float(average).toString(), null);
+				strItem.setLayout(StringItem.LAYOUT_NEWLINE_AFTER);
+				append(strItem);
 			} else if (genericQuestion.typeId.equals(Question.QUESTION_TYPE_Open)) {
 				//Caso seja questão aberta, oferece a opção de o usuário listar as respostas:
 				final OpenQuestion question = (OpenQuestion) genericQuestion;
-				StringItem cmdViewOpenQuestionAnswers = new StringItem(Constants.COMMAND_VIEW_OPEN_QUESTION_ANSWERS, null, StringItem.BUTTON);
-				cmdViewOpenQuestionAnswers.setDefaultCommand(cmdOk);
-				cmdViewOpenQuestionAnswers.setItemCommandListener(new ItemCommandListener() {
+				strItem = new StringItem(Constants.COMMAND_VIEW_OPEN_QUESTION_ANSWERS, null, StringItem.BUTTON);
+				strItem.setLayout(StringItem.LAYOUT_NEWLINE_AFTER);
+				strItem.setDefaultCommand(cmdOk);
+				strItem.setItemCommandListener(new ItemCommandListener() {
 					public void commandAction(Command c, Item item) {
 						MainView.getDisplay().setCurrent(new AnswersOpenQuestionView(survey, question, ReportView.this));
 					}
 				});
-				append(cmdViewOpenQuestionAnswers);
+				append(strItem);
 			}
 		}
 		
