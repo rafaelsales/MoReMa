@@ -2,6 +2,8 @@ package morema.persistence;
 
 import java.util.Vector;
 
+import javax.microedition.rms.RecordFilter;
+
 import morema.model.AbstractModel;
 import morema.model.Answer;
 import morema.model.Question;
@@ -18,6 +20,16 @@ public class AnswerDAO extends AbstractDAO {
 	
 	public AnswerDAO(Integer surveyId) throws MoremaException {
 		this(surveyId.intValue());
+	}
+	
+	public Object[] listByQuestion(final Question question) throws MoremaException {
+		return getRecords(new RecordFilter() {
+			public boolean matches(byte[] candidate) {
+				Object[] fields = genericalDeserialize(candidate, new Class[] { Integer.class, Integer.class });
+				Integer questionId = (Integer) fields[1];
+				return question.id.equals(questionId);
+			}
+		}, null);
 	}
 
 	protected AbstractModel deserialize(byte[] data) {

@@ -27,9 +27,10 @@ public interface Constants {
 	String MSG_NO = "Não";
 	String MSG_YES = "Sim";
 	String MSG_TITLE = "Título";
-	String MSG_QUESTION = "Questão";
+	String MSG_QUESTION = "Pergunta";
 	String MSG_ABOUT = "Aplicação desenvolvida por Camila Ferreira, Danusa Ribeiro, Lucas Assunção e Rafael Sales.";
 	String MSG_APPLICATION_NAME = "Mobile Research Manager";
+	String MSG_ANSWER = "Resposta";
 	
 	String QUESTION_LABEL_FALSE = "Não";
 	String QUESTION_LABEL_TRUE = "Sim";
@@ -48,6 +49,8 @@ public interface Constants {
 	String COMMAND_SHOW_REPORT = "Exibir Relatório";
 	String COMMAND_ABOUT = "Sobre";
 	String COMMAND_EXIT = "Sair";
+	String COMMAND_VIEW_OPEN_QUESTION_ANSWERS = "Visualizar respostas";
+	String COMMAND_SELECT = "Selecionar";
 
 	String QUESTION_TYPE_OPEN = "Aberta";
 	String QUESTION_TYPE_FLOAT_NUMBER = "Número decimal";
@@ -55,4 +58,7 @@ public interface Constants {
 	String QUESTION_TYPE_TRUE_FALSE = "Sim/Não";
 	
 	int TEXTFIELD_MAX_SIZE = 200;
+
+
+
 }

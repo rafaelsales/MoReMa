@@ -2,13 +2,14 @@ package morema.persistence;
 
 import java.util.Vector;
 
+import javax.microedition.rms.RecordComparator;
 import javax.microedition.rms.RecordEnumeration;
+import javax.microedition.rms.RecordFilter;
 import javax.microedition.rms.RecordStore;
 import javax.microedition.rms.RecordStoreException;
 
 import morema.model.AbstractModel;
 import morema.util.MoremaException;
-import morema.util.Util;
 
 public abstract class AbstractDAO {
 
@@ -52,21 +53,25 @@ public abstract class AbstractDAO {
 	 * @throws MoremaException
 	 */
 	public Object[] getRecords() throws MoremaException {
-		Vector records = null;
+		return getRecords(null, null);
+	}
+	
+	protected Object[] getRecords(RecordFilter recordFilter, RecordComparator recordComparator) throws MoremaException {
+		Object[] records = null;
 		try {
 			openThisRecordStore();
-			RecordEnumeration result = recordStore.enumerateRecords(null, null, false);
-			records = new Vector(result.numRecords());
-			while (result.hasNextElement()) {
+			RecordEnumeration result = recordStore.enumerateRecords(recordFilter, recordComparator, false);
+			records = new Object[result.numRecords()];
+			for (int i = result.numRecords() - 1; (i >= 0 && result.hasNextElement()); i--) {
 				int id = result.nextRecordId();
 				AbstractModel model = deserialize(recordStore.getRecord(id));
 				model.id = new Integer(id);
-				records.addElement(model);
+				records[i] = model;
 			}
 		} catch (Exception e) {
 			MoremaException.throwAsMoremaException(e);
 		}
-		return Util.vectorToArray(records, true);
+		return records;
 	}
 
 	public AbstractModel saveRecord(AbstractModel model) throws MoremaException {

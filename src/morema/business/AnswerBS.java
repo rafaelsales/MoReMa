@@ -87,4 +87,8 @@ public class AnswerBS {
 	public static Object[] list(Survey survey) throws MoremaException {
 		return new AnswerDAO(survey.id).getRecords();
 	}
+
+	public static Object[] listByQuestion(Question question) throws MoremaException {
+		return new AnswerDAO(question.surveyId).listByQuestion(question);
+	}
 }
