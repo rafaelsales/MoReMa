@@ -56,9 +56,7 @@ public interface Constants {
 	String QUESTION_TYPE_FLOAT_NUMBER = "Número decimal";
 	String QUESTION_TYPE_MULTIPLE_CHOICE = "Múltipla escolha";
 	String QUESTION_TYPE_TRUE_FALSE = "Sim/Não";
+	String QUESTION_TYPE_MULTIPLE_CHOICE_MULTIPLE_ANSWER = "Multipla resposta";
 	
 	int TEXTFIELD_MAX_SIZE = 200;
-
-
-
 }

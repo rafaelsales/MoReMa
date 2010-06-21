@@ -6,7 +6,6 @@ import javax.microedition.rms.RecordStoreFullException;
 import javax.microedition.rms.RecordStoreNotFoundException;
 import javax.microedition.rms.RecordStoreNotOpenException;
 
-
 public class MoremaException extends Exception {
 	public MoremaException(String msg) {
 		super(msg);

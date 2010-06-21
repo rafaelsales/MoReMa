@@ -37,6 +37,4 @@ public class SurveyBS {
 		SurveyDAO dao = new SurveyDAO();
 		return dao.getRecords();
 	}
-	
-	
 }
