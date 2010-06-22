@@ -18,8 +18,8 @@ public abstract class AbstractCreateQuestionView extends Form implements Command
 	protected final Command cmdSave = new Command(Constants.COMMAND_SAVE, Command.ITEM, 0);
 	protected final Command cmdBack = new Command(Constants.COMMAND_BACK, Command.CANCEL, 1);
 	
-	public AbstractCreateQuestionView(Survey survey, Displayable parentForm) {
-		super(Constants.COMMAND_ADD_QUESTION);
+	public AbstractCreateQuestionView(Survey survey, Displayable parentForm, String questionTypeTitle) {
+		super(Constants.COMMAND_ADD_QUESTION + " " + questionTypeTitle);
 		this.survey = survey;
 		this.parentForm = parentForm;
 		

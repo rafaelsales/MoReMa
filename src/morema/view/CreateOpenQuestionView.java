@@ -5,12 +5,13 @@ import javax.microedition.lcdui.Displayable;
 import morema.business.QuestionBS;
 import morema.model.OpenQuestion;
 import morema.model.Survey;
+import morema.util.Constants;
 import morema.util.MoremaException;
 
 public class CreateOpenQuestionView extends AbstractCreateQuestionView {
 	
 	public CreateOpenQuestionView(Survey survey, Displayable parentForm) {
-		super(survey, parentForm);
+		super(survey, parentForm, Constants.QUESTION_TYPE_OPEN);
 	}
 	
 	protected void addQuestion() throws MoremaException {

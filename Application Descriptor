@@ -1,7 +1,9 @@
-MIDlet-Version: 1.0.0
-MIDlet-Vendor: MoReMa
+MIDlet-1: MoReMa,/MoReMa.png,morema.view.MainView
 MIDlet-Jar-URL: MoReMa.jar
+MIDlet-Icon: /MoReMa.png
 MicroEdition-Configuration: CLDC-1.0
-MIDlet-1: MainView,,morema.view.MainView
-MicroEdition-Profile: MIDP-2.0
+MIDlet-Version: 1.0.0
 MIDlet-Name: MoReMa
+MIDlet-Description: MoReMa
+MIDlet-Vendor: MoReMa
+MicroEdition-Profile: MIDP-2.0

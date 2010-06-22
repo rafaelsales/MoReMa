@@ -22,7 +22,7 @@ public class CreateMultipleChoiceQuestionView extends AbstractCreateQuestionView
 	private final ChoiceGroup cgMultipleAnswer;
 	
 	public CreateMultipleChoiceQuestionView(Survey survey, Displayable parentForm) {
-		super(survey, parentForm);
+		super(survey, parentForm, Constants.QUESTION_TYPE_MULTIPLE_CHOICE);
 		
 		cgMultipleAnswer = new ChoiceGroup(Constants.QUESTION_TYPE_MULTIPLE_CHOICE_MULTIPLE_ANSWER, ChoiceGroup.EXCLUSIVE);
 		cgMultipleAnswer.append(Constants.MSG_NO, null);
